@@ -6,7 +6,24 @@ Apply through the [official Insta360 SDK application](https://www.insta360.com/s
 
 ## Tested platform
 
-**Tested on macOS only**, specifically Apple Silicon hosting Ubuntu 22.04 `linux/amd64` Docker containers, CPU acceleration, CUDA disabled and Mesa/EGL. This is experimental use of Linux binaries, not native macOS SDK support. Native Linux, Windows, Intel Macs and GPU/CUDA paths have not been runtime-tested by this project. The [vendor desktop requirements](https://insta360develop.github.io/Insta360-Developer_Docs/en/x/desktop/guide/) list Windows/Linux and discrete GPU requirements; observed CPU operation here does not supersede them.
+**Tested with MediaSDK 3.1.5:** Ubuntu 22.04 `linux/amd64` containers on Apple Silicon and native x86-64 Linux. Ordinary INSP processing works with CPU/Mesa. On Linux, an RTX 5060 Ti with driver 595.58.03 and NVIDIA compute/utility exposure also produced usable AI stitches while OpenGL remained Mesa/llvmpipe. This is a mixed compute/software-graphics path, not full NVIDIA graphics qualification.
+
+Without GPU exposure, the AI model selected CUDA despite `--cuda 0 --accel cpu` and produced black pixels. With GPU exposure, all four CUDA/acceleration combinations produced the actual scene. Those selectors do not force CPU AI inference in this build. Prefer optical flow when that compute environment is unavailable.
+
+**Omit `--log-dir` by default and redirect stderr.** Optional SDK file logging triggered teardown crashes after valid output; omitting it gave clean matching INSP/AI results in the [controlled Linux checks](verification.md#native-linux-and-gpu-controls). This is a measured workaround, not a universal fix. Native Debian 13 trials initialized NVIDIA graphics but segfaulted before producing output, including with CUDA and SDK file logging disabled. Full NVIDIA container graphics was blocked by a missing `/dev/nvidia-modeset` device. Other cameras/drivers, Windows and Intel Macs need separate qualification. Apple Silicon Docker remains experimental Linux emulation, not native macOS SDK support; observed behavior does not supersede the [vendor desktop requirements](https://insta360develop.github.io/Insta360-Developer_Docs/en/x/desktop/guide/).
+
+## Studio full-sphere DNG export
+
+This is a native application route, separate from MediaSDK and Docker. The tested application is **Insta360 Studio 5.9.10 on macOS**. Four One RS captures covering bright daylight, snow, a mixed-light interior and night exported full-sphere DNGs at 6528×3264. Other application versions and camera models need their own qualification.
+
+1. Preserve the original DNG and matching INSP. When companion discovery is needed, use a fresh working directory with byte-identical copies and their original basenames; write exports elsewhere.
+2. In Studio's **Media** workspace, import the DNG and inspect the stitched preview. Record stabilization, stitching and PureShot choices.
+3. Choose **Export 360** and **DNG** for the full-sphere route. A reframed DNG is a flat-view branch and must not be used as the spherical editing master. Export to a new destination.
+4. Decode the exported DNG with a suitable RAW/TIFF reader, inspect its geometry and tags, and compare its scene with the original. Save source/output hashes and the application version and export choices. Then follow the [RAW editing handoff](photo-edit-handoff.md#studio-dng-to-a-developed-editing-master).
+
+The tested exports use three-channel `LinearRaw` (PhotometricInterpretation 34892), uint16 storage and per-channel `WhiteLevel` 16383. This is a stitched, demosaiced RAW-derived representation, not untouched camera CFA and not proof of sixteen bits of sensor precision. Preserve its calibration and black/white-level metadata through RAW development.
+
+Keep PureShot as a separate treatment. In the tested interior, enabling it produced a separate DNG and JPEG, and the exported DNG sample array differed from the disabled version. The extra JPEG does not prove that the DNG was untouched. Do not infer denoise quality or prefer PureShot from file existence or numerical change alone.
 
 ## SDK layout
 
@@ -65,7 +82,7 @@ Use your original file's actual name instead of `photo.insp`. `--sdk-root PATH` 
 
 Mounts: SDK → read-only `/sdk`, originals → read-only `/samples`, skill helper sources → read-only `/scripts`, project results → writable `/work`. Input/output directories must be separate and non-nested; the output must not overlap the SDK. Use a separate output directory for each concurrent job, and run `build` there before processing. Compiled helpers and runtime logs are private job artifacts, not distributable skill content.
 
-Default process timeout is 120 seconds; pass `--timeout N` before the command. Containers are removed after completion. `--gpu` requests an existing NVIDIA runtime and remains untested. Host Python uses only its standard library; image verification additionally requires Pillow.
+Default process timeout is 120 seconds; pass `--timeout N` before the command. Containers are removed after completion. `--gpu` requests devices from an existing NVIDIA container runtime; it does not select or verify the actual graphics or AI backend. The tested GPU path exposes compute/utility capabilities and retains Mesa OpenGL. Inspect SDK backend/renderer logs instead of inferring them from the switch. The SDK launcher uses Python standard-library modules. Image verification requires Pillow; `sphere_photo.py` additionally requires NumPy for deterministic reprojection, and tifffile plus imagecodecs for developed RGB TIFF input and lossless RGB16 TIFF output. Its script dependency declaration can be resolved with `uv run`.
 
 Helpers compile as C++17 and link `libMediaSDK.so` / `libInsMetaDataSDK.so` with explicit RPATH. The sources use POSIX file descriptors and are not drop-in Windows builds. `metadata` separates JSON stdout from SDK diagnostics on stderr. Keep logs private: the vendor may log input paths or native metadata even when the helper omits identifying fields.
 
@@ -82,22 +99,21 @@ sdk media image \
   --output /work/review/stitched.jpg --width 1920 --height 960 \
   --stitch optflow --flowstate 1 --accessory -1 --cuda 0 --accel cpu \
   --models /sdk/MediaSDK-3.1.5-20260819-linux64/models \
-  --log-dir /work/review \
   > processed/review/result.json 2> processed/review/sdk.log
 ```
 
-Only after a successful stitch, run the verifier with a Pillow-enabled Python environment. One way to prepare it in the project is:
+Capture and require a zero process exit as well as a successful stitch before running the verifier with a Pillow-enabled Python environment. One way to prepare it in the project is:
 
 ```sh
 python3 -m venv .venv
-.venv/bin/python -m pip install Pillow
+.venv/bin/python -m pip install Pillow numpy
 .venv/bin/python "$INSTA360_SKILL/scripts/verify_image.py" \
   processed/review/stitched.jpg --expected-size 1920x960
 ```
 
 Then view the output and inspect horizon, seams, poles and near objects. The verifier checks full decode, dimensions, uniform pixels, hash, black fraction and ICC/GPano marker presence. It cannot certify seam quality, valid spherical metadata, colour management or artistic quality. On a failed run, use a new job subdirectory so stale files cannot pass a later check.
 
-For HDR, repeat `--input` for distinct members of the same exposure bracket. The helper permits one or at least three inputs and rejects exactly two or duplicates. The caller verifies capture grouping. DNG is documented by the vendor but failed direct stitching in the tested runtime. Read the SDK reference for video/frame export; this CLI exposes only saved-photo processing and metadata.
+For HDR, repeat `--input` for distinct members of the same exposure bracket. The helper permits one or at least three inputs and rejects exactly two or duplicates. The caller verifies capture grouping and exposure variation; the accepted input count alone does not qualify a bracket. Probe gyro separately for every proposed single-frame FlowState input because some native companions have no gyro stream. DNG is documented by the vendor but failed direct stitching in the tested runtime. Disabling FlowState produced a clean-exit diagnostic texture after CFA source loading failed, not a usable panorama; a three-DNG HDR call also failed. Do not treat successful exit/nonblank pixels as a rescue of that route. Read the SDK reference for video/frame export; this CLI exposes only saved-photo processing and metadata.
 
 ## All still controls in the helper
 
@@ -112,8 +128,13 @@ For HDR, repeat `--input` for distinct members of the same exposure bracket. The
 | `--exposure`, `--highlights`, `--shadows`, `--contrast`, `--brightness`, `--blackpoint`, `--saturation`, `--vibrance`, `--warmth`, `--tint` | Integers [-100,100], default 0. These are relative SDK controls, not physical stops/Kelvin. |
 | `--definition` | Integer [0,100], default 0. |
 | `--width`, `--height` | Explicit positive 2:1 panorama dimensions; default 1920×960. Helper caps either dimension at 65536 as input validation, not a claimed SDK capacity. |
-| `--models`, `--log-dir` | Existing directories; helper appends model-root slash. `--log-dir` resolves a new `media-sdk.log` file inside that directory because this runtime rejects a directory passed directly to `SetLogPath`. Existing log files are protected. Keep captured stderr as well. |
+| `--models` | Existing model directory; helper appends its trailing slash. |
+| `--log-dir` | Optional duplicate SDK file logging; **omit by default** because it triggered teardown crashes in this build. When deliberately testing it, supply an existing directory; the helper resolves a new `media-sdk.log` file for `SetLogPath` and protects existing files. Redirect stderr regardless. |
 
-Output must be a new `.jpg`/`.jpeg` path with an existing parent. Duplicate source paths and all existing output entries (including dangling symlinks) are rejected. Exit 0 means SDK/file completion only; 2 validation/exception, 3 metadata parse false, 4 stitch false/missing output, 5 media-info fields unusable. Process signal/timeout exit codes remain visible. The helper does not implement an atomic cross-process output reservation; use unique per-job paths.
+Output must be a new `.jpg`/`.jpeg` path with an existing parent. Duplicate source paths and all existing output entries (including dangling symlinks) are rejected. Exit 0 means SDK/file completion only; 2 validation/exception, 3 metadata parse false, 4 stitch false/missing output, 5 media-info fields unusable. Process signal/timeout exit codes remain visible. With SDK file logging enabled, valid pixels and `ok:true` have preceded exits 134/139 during teardown. Treat that execution as failed, preserve its logs and outputs, and retry without `--log-dir` using a fresh bounded output path and captured stderr. Moving the logging call alone did not resolve the tested crashes. Do not overwrite evidence or infer successful execution from a previously created file. The helper does not implement an atomic cross-process output reservation; use unique per-job paths.
+
+An isolated validation-only helper experiment allowed a `.png` output path and produced actual eight-bit RGBA panoramas with opaque alpha. The shipped helper remains JPEG-only. PNG from an INSP avoids another JPEG encoding step but does not restore RAW precision; ImageStitcher has no public still-image bit-depth selector. Do not reuse VideoStitcher's ten-bit control as a photo API.
 
 Keep `args`, source hashes, model/header/runtime versions, exit code, logs, output hash/dimensions and visual review notes as a recipe/receipt. Use the API reference for video or frame export; this wrapper intentionally exposes only saved-photo processing and metadata.
+
+For normal-photo reprojection and full-sphere GPano authoring, use the [editing and delivery handoff](photo-edit-handoff.md). These Python operations are separate from MediaSDK and retain their own receipts.

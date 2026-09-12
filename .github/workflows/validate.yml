@@ -17,6 +17,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: python3 tools/check_dist.py
+      - run: python3 -m pip install "Pillow>=10" "numpy>=1.24" "tifffile>=2024.8.30" "imagecodecs>=2024.9.22"
       - run: python3 -m unittest discover -s tests -v
       - run: python3 -m unittest discover -s viewer -p 'test_server.py' -v
       - run: node --check viewer/app.js

@@ -1,12 +1,12 @@
 # Insta360 AI Toolkit
 
-**Give your AI agent the full picture.** Stitch, level and prepare Insta360 360° photos for editing—with a reusable agent skill, local Docker tools and a 360° photo viewer.
+**Give your AI agent the full picture.** Stitch, level and prepare Insta360 360° photos for editing—with a reusable agent skill, local Docker tools, a Studio RAW export workflow and a 360° photo viewer.
 
 ![Insta360 AI Toolkit: from native INSP to a panorama ready to edit. Stitching, HDR, FlowState and verified exports.](docs/assets/hero.svg)
 
 [Get started](#get-started) · [Try a prompt](#one-prompt-a-complete-photo-workflow) · [360° viewer](#explore-your-panorama) · [What works](#what-we-verified) · [SDK reference](skills/insta360-sdk/references/media-sdk.md) · [MIT license](LICENSE)
 
-**Tested on Mac only** · **Bring your own Insta360 SDK** · **Saved-photo postprocessing**
+**Tested on Mac and Linux** · **Bring your own Insta360 SDK** · **Saved-photo postprocessing**
 
 ## Your camera captures the sphere. Your agent handles the workflow.
 
@@ -20,6 +20,7 @@ Native INSP → inspect & group → stitch / HDR / FlowState → verify → 360�
 - **Use the whole photo workflow.** Single-image stitching, exposure brackets, 11 colour/detail controls, ColorPlus, denoise and native metadata inspection.
 - **Keep processing local.** Original files and SDK libraries are mounted read-only. Processing containers have networking disabled; outputs go to your project.
 - **Check the actual result.** Detect blank images and wrong dimensions, preserve source hashes, then inspect horizons and seams. A successful SDK return value alone does not establish a good panorama.
+- **Choose the final form.** Keep the edited panorama spherical with verified GPano dimensions, or export a reproducible yaw/pitch/FOV reframe as a normal photo using the [editing handoff](skills/insta360-sdk/references/photo-edit-handoff.md).
 - **Explore the result.** Open the included 360° viewer to look around, zoom, auto-rotate and inspect seams in context. Viewing an existing panorama needs no SDK or Docker.
 - **Reuse the setup.** One SDK directory can serve multiple projects, each with its own originals and results.
 
@@ -37,13 +38,14 @@ Or ask for a focused task:
 |---|---|
 | Merge an exposure bracket | “Confirm these INSP files belong to one bracket, then stitch an HDR panorama.” |
 | Compare processing choices | “Compare template and optical-flow stitching with the same orientation and dimensions.” |
+| Preserve a RAW-derived path | “Use Studio to export a full-sphere DNG, verify its RAW development, then keep it spherical or make a high-precision flat reframe.” |
 | Prepare an editing handoff | “Export a stitched derivative for my photo editor with its source hashes and processing settings.” |
 
 Photo-editor integration depends on the editor and tools available to your agent. Camera control is outside this project. Video/frame-export APIs are documented, but the CLI and runtime verification currently cover photos and metadata.
 
 ## Get started
 
-You need **Python 3.10+**, a running Docker engine capable of `linux/amd64`, and approved **Linux MediaSDK and InsMetaDataSDK** downloads. Pillow is used for image verification. Runtime testing so far is on an **Apple Silicon Mac** running the Linux SDK inside Docker.
+You need **Python 3.10+**, a running Docker engine capable of `linux/amd64`, and approved **Linux MediaSDK and InsMetaDataSDK** downloads. Pillow is used for image verification; NumPy is also required for the optional sphere reprojection and metadata helper; developed RGB16 TIFF reprojection additionally requires tifffile and imagecodecs. The separate [Studio DNG route](skills/insta360-sdk/references/runtime.md#studio-full-sphere-dng-export) uses the installed Studio application and does not require the SDK or Docker. The SDK was tested in **Ubuntu 22.04 amd64 containers on Apple Silicon and x86-64 Linux**, with a qualified NVIDIA compute/Mesa path on the Linux host.
 
 ### 1. Get the SDK from Insta360
 
@@ -69,7 +71,7 @@ The installer uses `$CODEX_HOME/skills`, or `~/.codex/skills` by default. Start 
 
 The Docker image contains build/render dependencies. Your licensed SDK is mounted at runtime. The image is built locally; no prebuilt registry image is published. Building downloads Ubuntu packages; SDK processing runs offline.
 
-Ubuntu 22.04 is the Linux x86-64 environment listed in the [MediaSDK requirements](https://insta360develop.github.io/Insta360-Developer_Docs/en/x/desktop/guide/) and the base used in our Mac-hosted tests. Other distributions or Ubuntu versions need separate compatibility testing.
+Ubuntu 22.04 is the Linux x86-64 environment listed in the [MediaSDK requirements](https://insta360develop.github.io/Insta360-Developer_Docs/en/x/desktop/guide/) and the base used on both tested hosts. Native Debian 13 rendering failed qualification; other distributions or Ubuntu versions need separate compatibility testing.
 
 ### 3. Connect a project and give your agent the task
 
@@ -100,10 +102,10 @@ sdk media image \
   --output /work/first-look/panorama.jpg --width 1920 --height 960 \
   --stitch optflow --flowstate 1 --cuda 0 --accel cpu \
   --models /sdk/MediaSDK-3.1.5-20260819-linux64/models \
-  --log-dir /work/first-look
+  > processed/first-look/result.json 2> processed/first-look/sdk.log
 ```
 
-Then [run the verifier and inspect the panorama](skills/insta360-sdk/references/runtime.md#stitch-and-check-one-photo). `/samples` maps to `originals/`, `/work` to `processed/`, and `/sdk` to the SDK root. Wrapper options such as `--timeout` go before `media`, `metadata`, `doctor` or `build`.
+Keep stderr capture and omit optional `--log-dir`: duplicate SDK file logging triggered teardown crashes in the tested build. Require a zero process exit as well as valid scene pixels. Then [run the verifier and inspect the panorama](skills/insta360-sdk/references/runtime.md#stitch-and-check-one-photo). `/samples` maps to `originals/`, `/work` to `processed/`, and `/sdk` to the SDK root. Wrapper options such as `--timeout` go before `media`, `metadata`, `doctor` or `build`.
 
 ## Explore your panorama
 
@@ -125,9 +127,9 @@ Stop with **Ctrl+C**. The viewer ships in the repository and full source ZIP; th
 
 ## What we verified
 
-**Runtime testing is macOS only:** Apple Silicon host → Ubuntu 22.04 `linux/amd64` container → CPU/Mesa, CUDA off. This runs the Linux SDK on a Mac; it is not a native macOS SDK. The vendor's [desktop requirements](https://insta360develop.github.io/Insta360-Developer_Docs/en/x/desktop/guide/) list Windows/Linux and differ from this experimental setup.
+**SDK testing covers Apple Silicon and x86-64 Linux with the same Ubuntu 22.04 amd64 container.** CPU/Mesa processes INSP; an RTX 5060 Ti with driver 595.58.03 also enables AI stitching through NVIDIA compute while OpenGL remains Mesa. Omit SDK file logging and capture stderr: matched container controls then completed cleanly. This does not qualify full NVIDIA graphics, other cameras/drivers or native macOS SDK execution; see the [runtime boundaries](skills/insta360-sdk/references/runtime.md#tested-platform) and [vendor requirements](https://insta360develop.github.io/Insta360-Developer_Docs/en/x/desktop/guide/).
 
-| Capability | Observed result on the tested Mac setup |
+| Capability | Observed result in the tested environments |
 |---|---|
 | Single INSP stitching | Optical-flow, template and dynamic stitching produced nonblank panoramas |
 | FlowState and HDR | Level output; a three-INSP HDR export was inspected at **6528×3264** |
@@ -135,10 +137,14 @@ Stop with **Ctrl+C**. The viewer ships in the repository and full source ZIP; th
 | Native metadata | All **9 parser methods** exercised; absent optional streams reported separately |
 | Local 360 viewer | Drag, zoom, auto-rotate, fullscreen and local file loading; 12 server boundary tests |
 | Distribution | **18 automated tests**, fresh installation, C++ compilation and a verified 960×480 stitch |
-| AI stitching algorithm / direct DNG stitching | Failed acceptance in this runtime; do not rely on them |
-| Video, realtime, CUDA, Intel Macs, native Linux/Windows | Not runtime-tested by this project |
+| Studio full-sphere DNG export | Native macOS Studio **5.9.10** exported four One RS captures at **6528×3264** as LinearRaw RGB in sixteen-bit storage; RAW development and edit quality need separate verification |
+| High-precision flat reframe | Developed RGB16 TIFF input/output, ICC preservation and explicit eight-bit delivery conversion; geometry and precision fixtures tested |
+| AI stitching algorithm | Black without GPU exposure; actual-scene output with NVIDIA compute visible, even under nominal CPU options |
+| Direct SDK DNG stitching | Still failed acceptance, including a clean-exit diagnostic texture; use the separate Studio route |
+| Native NVIDIA graphics | Debian 13 initialized the RTX renderer but segfaulted before output; full NVIDIA container graphics remains unqualified |
+| Video, realtime, Intel Macs, Windows | Not runtime-tested by this project |
 
-AI-agent assistance and the SDK's optional **AI stitching algorithm** are separate capabilities. The latter returned an all-black JPEG during testing, which is why output verification is part of the workflow. Tested JPEGs also lacked embedded ICC/GPano markers; verify colour and panorama metadata when preparing a final delivery.
+AI-agent assistance and the SDK's optional **AI stitching algorithm** are separate capabilities. GPU compute visibility fixed the tested AI black-output failure; `--cuda 0 --accel cpu` alone did not force CPU AI inference. Process status and actual scene content both require verification. An isolated SDK PNG probe produced eight-bit output from INSP; the shipped still helper remains JPEG-only. PNG does not restore RAW precision. Studio's native macOS DNG workflow is separate from the experimental Linux SDK runtime, and PureShot/HDR treatments must stay separately labelled. Tested SDK JPEGs also lacked embedded ICC/GPano markers; verify colour and panorama metadata when preparing a final delivery.
 
 The references map **98 MediaSDK** and **11 MetadataSDK callable declarations**. API coverage is broader than executable support and verified output quality. Read the [SDK evidence and known limits](skills/insta360-sdk/references/verification.md) or the [distribution validation report](docs/validation.md) for details.
 

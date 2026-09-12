@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Run a separately obtained Insta360 Linux SDK in an offline Docker container.
 
-Runtime tested only on macOS Apple Silicon, using linux/amd64 CPU/Mesa.
+Tested in Ubuntu 22.04 amd64 containers on Apple Silicon and x86-64 Linux.
+Linux NVIDIA compute/Mesa qualification is documented in references/runtime.md.
 """
 import argparse
 import json
@@ -21,7 +22,7 @@ def main():
     p.add_argument('--output-dir', type=Path, help='Project build/results directory mounted at /work')
     p.add_argument('--image', default='insta360-postprocess:ubuntu22.04')
     p.add_argument('--timeout', type=int, default=120)
-    p.add_argument('--gpu', action='store_true', help='Request an existing NVIDIA runtime (untested)')
+    p.add_argument('--gpu', action='store_true', help='Request existing NVIDIA device access; see runtime guide for the tested compute/Mesa path')
     p.add_argument('command', choices=['doctor', 'build', 'media', 'metadata'])
     p.add_argument('args', nargs=argparse.REMAINDER)
     a = p.parse_args()
@@ -57,7 +58,7 @@ def main():
                           'input_dir_present': bool(inputs and inputs.is_dir()),
                           'output_dir_present': bool(outputs and outputs.is_dir()),
                           'network': 'none', 'gpu_requested': a.gpu,
-                          'tested_host': 'macOS Apple Silicon only; Linux SDK inside Docker'}, indent=2))
+                          'tested_host': 'Apple Silicon and x86-64 Linux; Ubuntu 22.04 amd64 containers (see runtime guide)'}, indent=2))
         if not ok:
             print('sdk_run: build the dependency image as linux/amd64 and check Docker is running', file=sys.stderr)
         return 0 if ok else 2
