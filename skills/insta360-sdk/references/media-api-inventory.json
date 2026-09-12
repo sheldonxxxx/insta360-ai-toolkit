@@ -1,0 +1,2468 @@
+{
+  "schema_version": 1,
+  "sdk": "Insta360 MediaSDK",
+  "version": "3.1.5",
+  "archive": "MediaSDK-3.1.5-20260819-linux64",
+  "review_date": "2026-09-12",
+  "workflow_scope": "Offline photo/video postprocessing only. Realtime MediaSDK declarations inventoried for completeness; CameraSDK/capture excluded.",
+  "coverage_definition": "Unique explicit public function declarations; duplicated global declarations merged; constructors/destructors/copy assignment included; commented and private declarations excluded.",
+  "function_count": 98,
+  "function_counts_by_owner": {
+    "CameraInfo": 5,
+    "ins": 7,
+    "RealTimeStitcher": 19,
+    "VideoStitcher": 41,
+    "ImageStitcher": 26
+  },
+  "offline_cli_option_count": 39,
+  "source_sha256": {
+    "include/ins_common.h": "9cdfbcd875f599eb6ebfa6cc36538828017c1ab314e3f059b060d3a83e922ced",
+    "include/ins_realtime_stitcher.h": "b156c45b24b69abb9f82435c8e5472ca8c371414f31c50162a7781c69d426e82",
+    "include/ins_stitcher.h": "ccdffcdb9387495ef34548a9ff5d14009dae2333d5cfc53b5e7f0500e19d7a94"
+  },
+  "official_guide": {
+    "url": "https://raw.githubusercontent.com/Insta360Develop/Insta360-Developer_Docs/main/docs/en/sdk/x-ace-go/desktop/media.md",
+    "retrieved": "2026-09-12",
+    "snapshot_sha256": "2a4db9282c3a1aa39cd076752c386162ce43d186dd12f05487d867e81ea696e3",
+    "sections": {
+      "platform_and_drivers": [
+        5,
+        29
+      ],
+      "dng_photo_support": [
+        94,
+        98
+      ],
+      "input_cardinality_and_hdr": [
+        167,
+        183
+      ],
+      "output_ratio": [
+        185,
+        191
+      ],
+      "colorplus_strength": [
+        227,
+        229
+      ],
+      "cooling_shell_models": [
+        285,
+        289
+      ],
+      "codec_and_direction_lock": [
+        303,
+        319
+      ],
+      "defringe_support_conflict_with_demo": [
+        321,
+        327
+      ],
+      "frame_export_names": [
+        329,
+        339
+      ],
+      "codec_automatic_switching": [
+        456,
+        464
+      ],
+      "development_prerequisites": [
+        683,
+        700
+      ],
+      "denoise_model_gate": [
+        728,
+        741
+      ]
+    }
+  },
+  "functions": [
+    {
+      "symbol": "ins::CameraInfo::CameraInfo",
+      "signature": "CameraInfo();",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_common.h",
+          "line": 197
+        }
+      ],
+      "usage": "Construct/copy/assign owned camera description."
+    },
+    {
+      "symbol": "ins::CameraInfo::~CameraInfo",
+      "signature": "~CameraInfo();",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_common.h",
+          "line": 198
+        }
+      ],
+      "usage": "Construct/copy/assign owned camera description."
+    },
+    {
+      "symbol": "ins::CameraInfo::CameraInfo",
+      "signature": "CameraInfo(const CameraInfo&);",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_common.h",
+          "line": 199
+        }
+      ],
+      "usage": "Construct/copy/assign owned camera description."
+    },
+    {
+      "symbol": "ins::CameraInfo::operator=",
+      "signature": "CameraInfo& operator=(const CameraInfo&);",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_common.h",
+          "line": 200
+        }
+      ],
+      "usage": "Construct/copy/assign owned camera description."
+    },
+    {
+      "symbol": "ins::CameraInfo::SetCalibration",
+      "signature": "void SetCalibration(const std::vector<std::string>& offsets, uint32_t src_width, uint32_t src_height, uint32_t dst_width, uint32_t dst_height, int32_t crop_offset_x, int32_t crop_offset_y);",
+      "category": "calibration",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_common.h",
+          "line": 209
+        }
+      ],
+      "usage": "Copy opaque lens offsets and crop source/destination dimensions and offsets from CameraSDK preview metadata; do not invent calibration."
+    },
+    {
+      "symbol": "ins::GetVersion",
+      "signature": "std::string MEDIASDK_API GetVersion();",
+      "category": "environment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_common.h",
+          "line": 241
+        }
+      ],
+      "usage": "Return the full SDK version string; log it with the run."
+    },
+    {
+      "symbol": "ins::GetVersionMajor",
+      "signature": "int MEDIASDK_API GetVersionMajor();",
+      "category": "environment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_common.h",
+          "line": 243
+        }
+      ],
+      "usage": "Return SDK major version for compatibility checks."
+    },
+    {
+      "symbol": "ins::InitEnv",
+      "signature": "void MEDIASDK_API InitEnv();",
+      "category": "environment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 27
+        },
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 27
+        }
+      ],
+      "usage": "Initialize once before SDK work. Header requires this before other SDK calls; demo contradicts this for version/log setup."
+    },
+    {
+      "symbol": "ins::SetLogPath",
+      "signature": "void MEDIASDK_API SetLogPath(const std::string& log_path);",
+      "category": "diagnostics",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 33
+        },
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 33
+        }
+      ],
+      "usage": "Set logging destination. Header says directory; demo passes a full file path after making its parent. Verify logs were written."
+    },
+    {
+      "symbol": "ins::SetLogLevel",
+      "signature": "void MEDIASDK_API SetLogLevel(InsLogLevel level);",
+      "category": "diagnostics",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 39
+        },
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 39
+        }
+      ],
+      "usage": "Choose VERBOSE/INFO/WARNING/ERR/FATAL. Demo default ERR; use INFO to see degradation warnings."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::RealTimeStitcher",
+      "signature": "RealTimeStitcher();",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 47
+        }
+      ],
+      "usage": "Construct stitcher / release owned resources on destruction."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::~RealTimeStitcher",
+      "signature": "~RealTimeStitcher();",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 52
+        }
+      ],
+      "usage": "Construct stitcher / release owned resources on destruction."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::SetCameraAccessoryType",
+      "signature": "void SetCameraAccessoryType(CameraAccessoryType type);",
+      "category": "accessory",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 58
+        }
+      ],
+      "usage": "Choose exact CameraAccessoryType from metadata/known physical accessory. Demo defaults kNormal (0); use -1 for auto-detection rather than assume bare lenses."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::SetStitchType",
+      "signature": "void SetStitchType(STITCH_TYPE type);",
+      "category": "stitching",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 68
+        }
+      ],
+      "usage": "Choose TEMPLATE, OPTFLOW, DYNAMICSTITCH, or AIFLOW. AI needs models. Demo default OPTFLOW; its template option is broken (no parser branch). Use C++ TEMPLATE directly."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::SetStitchStateCallback",
+      "signature": "void SetStitchStateCallback(stitch_error_callback callback);",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 75
+        }
+      ],
+      "usage": "Install error/state callback before start; capture numeric code and nullable text. Do not treat a printed message or process exit 0 as success."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::SetCameraInfo",
+      "signature": "void SetCameraInfo(const CameraInfo& cameraInfo);",
+      "category": "calibration",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 81
+        }
+      ],
+      "usage": "Provide camera model, codec, calibration/crop, and synchronization metadata before realtime start."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::StartStitch",
+      "signature": "void StartStitch();",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 86
+        }
+      ],
+      "usage": "Start asynchronous video/realtime stitching after configuration and callbacks. Official guide: settings changed after starting have no effect. Keep objects alive; use timeout and terminal error/completion handling."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::CancelStitch",
+      "signature": "bool CancelStitch();",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 91
+        }
+      ],
+      "usage": "Cancel active work and check returned bool; ensure callbacks cannot outlive captured application state."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::SetStitchRealTimeDataCallback",
+      "signature": "void SetStitchRealTimeDataCallback(stitch_realtime_data_callback callback);",
+      "category": "live-output",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 98
+        }
+      ],
+      "usage": "Receive borrowed raw frame planes, per-plane strides, dimensions, FFmpeg-style pixel format, and microsecond timestamp. Respect format/stride and copy before returning if retaining."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::SetOutputSize",
+      "signature": "void SetOutputSize(int width, int height);",
+      "category": "output",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 103
+        }
+      ],
+      "usage": "Require explicit positive 2:1 width:height; official guide says SDK does not enforce ratio and other ratios distort panoramas. Video/realtime header defaults source size; offline demo overrides to 1920x960, realtime demo 960x480."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::EnableFlowState",
+      "signature": "void EnableFlowState(bool enable);",
+      "category": "stabilization",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 109
+        }
+      ],
+      "usage": "Enable gyro-driven FlowState; documented default off. Realtime needs synchronized gyro samples; validate horizon visually."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::EnableDirectionLock",
+      "signature": "void EnableDirectionLock(bool enable);",
+      "category": "stabilization",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 116
+        }
+      ],
+      "usage": "Lock direction while FlowState is enabled. Documented video default off; enable FlowState first."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::SetVideoDelayMs",
+      "signature": "void SetVideoDelayMs(int video_delay_ms);",
+      "category": "stabilization",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 122
+        }
+      ],
+      "usage": "Delay incoming video by milliseconds to align gyro data. No default/range exposed and no demo flag."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::EnableDeflicker",
+      "signature": "void EnableDeflicker(bool enable);",
+      "category": "enhancement",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 127
+        }
+      ],
+      "usage": "Toggle deflicker on video/realtime. No still method or strength control. Offline demo default off."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::SetSoftwareCodecUsage",
+      "signature": "void SetSoftwareCodecUsage(bool enable_encoder, bool enable_decoder);",
+      "category": "video-codec",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 134
+        }
+      ],
+      "usage": "Independent software encoder/decoder toggles. Demo defaults both false (prefer hardware); does not remove render-stack requirements."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::EnableDefringe",
+      "signature": "void EnableDefringe(bool enable);",
+      "category": "enhancement",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 139
+        }
+      ],
+      "usage": "Toggle video/realtime defringe; no still method. Official guide supports X4 Air/X5/X6, but bundled demo help says X6 skipped: unresolved documentation conflict, so inspect actual feature status/logs."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::HandleVideoData",
+      "signature": "void HandleVideoData(const uint8_t* data, size_t size, int64_t timestamp, uint8_t stream_type, int stream_index = 0);",
+      "category": "live-input",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 149
+        }
+      ],
+      "usage": "Forward encoded packet, byte count, microsecond timestamp, stream type, and lens stream index (default 0); preserve synchronization."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::HandleGyroData",
+      "signature": "void HandleGyroData(const std::vector<GyroData>& data);",
+      "category": "live-input",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 155
+        }
+      ],
+      "usage": "Forward GyroData samples with camera-clock microsecond timestamps and six-axis readings for FlowState; prefer field-by-field conversion across SDK versions."
+    },
+    {
+      "symbol": "ins::RealTimeStitcher::HandleExposureData",
+      "signature": "void HandleExposureData(const ExposureData& data);",
+      "category": "live-input",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_realtime_stitcher.h",
+          "line": 161
+        }
+      ],
+      "usage": "Forward camera-clock exposure timestamp (microseconds) and exposure duration (seconds)."
+    },
+    {
+      "symbol": "ins::SetModelFileRootDir",
+      "signature": "void MEDIASDK_API SetModelFileRootDir(const std::string& root_dir);",
+      "category": "models",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 46
+        }
+      ],
+      "usage": "Point to bundled model root with a trailing slash. Default demo location: models/ beside executable. Missing models may skip features."
+    },
+    {
+      "symbol": "ins::GetMediaFileInfo",
+      "signature": "bool MEDIASDK_API GetMediaFileInfo(const std::vector<std::string>& file_paths, MediaFileInfo& info);",
+      "category": "metadata",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "observed-true-with-unusable-zero-photo-properties",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 54
+        }
+      ],
+      "usage": "Parse input path vector into MediaFileInfo; validate both bool AND fields. Lab INSP probe returned true with all-zero dimensions/type/rate/duration; unusable photo properties require metadata/EXIF fallback. No demo CLI query.",
+      "runtime_evidence": {
+        "observation": "Native INSP query returned ok=true, media_type=0, and width/height/fps/bitrate/duration_ms all zero. Do not classify the photo from these fields."
+      }
+    },
+    {
+      "symbol": "ins::VideoStitcher::VideoStitcher",
+      "signature": "VideoStitcher();",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 62
+        }
+      ],
+      "usage": "Construct stitcher / release owned resources on destruction."
+    },
+    {
+      "symbol": "ins::VideoStitcher::~VideoStitcher",
+      "signature": "~VideoStitcher() = default;",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 67
+        }
+      ],
+      "usage": "Construct stitcher / release owned resources on destruction."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetInputPath",
+      "signature": "void SetInputPath(const std::vector<std::string>& input_paths);",
+      "category": "input",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 80
+        }
+      ],
+      "usage": "Use one logical capture. Official guide: photos accept one or >=3 originals (>=3 implies HDR fusion), never exactly 2; establish bracket membership first. Video at most 2 files: older >=5.7K is dual-file, X4/X5/X4 Air/X6 contain both tracks in one file."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetStabDataOutputPath",
+      "signature": "void SetStabDataOutputPath(const std::string& file_path);",
+      "category": "stabilization",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 85
+        }
+      ],
+      "usage": "Export stabilization data to a file. Format and downstream reader are unspecified; no demo CLI flag."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetImageSequenceInfo",
+      "signature": "void SetImageSequenceInfo(const std::string& output_dir, IMAGE_TYPE image_type);",
+      "category": "frame-export",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 92
+        }
+      ],
+      "usage": "Set existing directory (no filename) and JPEG/PNG for video frame export; overrides video output path. Official guide says all-frame files use frame timestamps in milliseconds."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetExportFrameSequence",
+      "signature": "void SetExportFrameSequence(const std::vector<uint64_t>& vec);",
+      "category": "frame-export",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 98
+        }
+      ],
+      "usage": "Select zero-based video frame indices. Demo accepts a hyphen-separated list, not a range; omission means all frames. Official guide says selected-frame filenames use the frame index."
+    },
+    {
+      "symbol": "ins::VideoStitcher::EnableCuda",
+      "signature": "void EnableCuda(bool enable);",
+      "category": "acceleration",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 104
+        }
+      ],
+      "usage": "Toggle CUDA stitching acceleration. Offline demo defaults true. False plus CPU image processing is a fallback request, not proof of a GPU-free runtime."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetOutputPath",
+      "signature": "void SetOutputPath(const std::string& output_path);",
+      "category": "output",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 109
+        }
+      ],
+      "usage": "Set a new output file including extension; preserve originals. Official guide specifies .jpg stills and .mp4 video. IMAGE_TYPE PNG/JPEG controls video frame sequences, not still output; test other still extensions before relying on them."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetOutputBitRate",
+      "signature": "void SetOutputBitRate(int64_t bitRate);",
+      "category": "video-codec",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 114
+        }
+      ],
+      "usage": "Set output bitrate in bits/second. API int64_t; demo uses int/atoi and defaults to 0, meaning match source."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetOutputSize",
+      "signature": "void SetOutputSize(int width, int height);",
+      "category": "output",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 119
+        }
+      ],
+      "usage": "Require explicit positive 2:1 width:height; official guide says SDK does not enforce ratio and other ratios distort panoramas. Video/realtime header defaults source size; offline demo overrides to 1920x960, realtime demo 960x480."
+    },
+    {
+      "symbol": "ins::VideoStitcher::EnableFlowState",
+      "signature": "void EnableFlowState(bool enable);",
+      "category": "stabilization",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 125
+        }
+      ],
+      "usage": "Enable gyro-driven FlowState; documented default off. Realtime needs synchronized gyro samples; validate horizon visually."
+    },
+    {
+      "symbol": "ins::VideoStitcher::EnableDirectionLock",
+      "signature": "void EnableDirectionLock(bool enable);",
+      "category": "stabilization",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 132
+        }
+      ],
+      "usage": "Lock direction while FlowState is enabled. Documented video default off; enable FlowState first."
+    },
+    {
+      "symbol": "ins::VideoStitcher::EnableStitchFusion",
+      "signature": "void EnableStitchFusion(bool enable);",
+      "category": "stitching",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 138
+        }
+      ],
+      "usage": "Enable seam fusion; default off and unsupported with TEMPLATE."
+    },
+    {
+      "symbol": "ins::VideoStitcher::EnableCoolingShellDetection",
+      "signature": "void EnableCoolingShellDetection(bool enable);",
+      "category": "accessory",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 144
+        }
+      ],
+      "usage": "Enable camera cooling-shell detection; default off. Official guide limits support to X4 Air/X5/X6; other cameras auto-skip. Models required."
+    },
+    {
+      "symbol": "ins::VideoStitcher::EnableDenoise",
+      "signature": "void EnableDenoise(bool enable);",
+      "category": "enhancement",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 150
+        }
+      ],
+      "usage": "Enable denoise; default off. A toggle does not promise arbitrary strength controls or PureShot/HDR merging."
+    },
+    {
+      "symbol": "ins::VideoStitcher::EnableColorPlus",
+      "signature": "void EnableColorPlus(bool enable, float strength = 1.0f);",
+      "category": "enhancement",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 158
+        }
+      ],
+      "usage": "Enable model-based automatic color enhancement; default off. Official guide strength range 0\u20131; C++ defaults image 0.3, video 1.0. CLI has no strength flag."
+    },
+    {
+      "symbol": "ins::VideoStitcher::EnableH265Encoder",
+      "signature": "void EnableH265Encoder(bool enable);",
+      "category": "video-codec",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 164
+        }
+      ],
+      "usage": "Enable HEVC instead of default H.264. Official guide: H.264 output over 4096 in either dimension forces software encoding; H.265 retains hardware eligibility subject to device capabilities."
+    },
+    {
+      "symbol": "ins::VideoStitcher::Enable10BitExport",
+      "signature": "void Enable10BitExport(bool enable);",
+      "category": "video-codec",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 177
+        }
+      ],
+      "usage": "Request 10-bit video; default off. Needs 10-bit source, otherwise 8-bit warning fallback; 10-bit source/output selects H.265. Official guide says denoise/defringe/deflicker plus 10-bit source also enables 10-bit export automatically."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetStitchType",
+      "signature": "void SetStitchType(STITCH_TYPE type);",
+      "category": "stitching",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 187
+        }
+      ],
+      "usage": "Choose TEMPLATE, OPTFLOW, DYNAMICSTITCH, or AIFLOW. AI needs models. Demo default OPTFLOW; its template option is broken (no parser branch). Use C++ TEMPLATE directly."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetStitchProgressCallback",
+      "signature": "void SetStitchProgressCallback(stitch_process_callback callback);",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 194
+        }
+      ],
+      "usage": "Install callback before async start; progress 0\u2013100. Synchronize callback state and object lifetime."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetStitchStateCallback",
+      "signature": "void SetStitchStateCallback(stitch_error_callback callback);",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 201
+        }
+      ],
+      "usage": "Install error/state callback before start; capture numeric code and nullable text. Do not treat a printed message or process exit 0 as success."
+    },
+    {
+      "symbol": "ins::VideoStitcher::StartStitch",
+      "signature": "void StartStitch();",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 206
+        }
+      ],
+      "usage": "Start asynchronous video/realtime stitching after configuration and callbacks. Official guide: settings changed after starting have no effect. Keep objects alive; use timeout and terminal error/completion handling."
+    },
+    {
+      "symbol": "ins::VideoStitcher::CancelStitch",
+      "signature": "bool CancelStitch();",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 211
+        }
+      ],
+      "usage": "Cancel active work and check returned bool; ensure callbacks cannot outlive captured application state."
+    },
+    {
+      "symbol": "ins::VideoStitcher::GetStitchProgress",
+      "signature": "int GetStitchProgress() const;",
+      "category": "diagnostics",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 216
+        }
+      ],
+      "usage": "Query stitching progress, 0\u2013100; progress alone does not validate output content."
+    },
+    {
+      "symbol": "ins::VideoStitcher::GetFeatureStatusMap",
+      "signature": "std::map<std::string, int> GetFeatureStatusMap() const;",
+      "category": "diagnostics",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 223
+        }
+      ],
+      "usage": "After video run, record actual feature statuses: -1 unknown, 0 off, 1 on, 2 skipped(auto), 3 failed. Feature-key vocabulary is not declared; preserve returned keys."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetCameraAccessoryType",
+      "signature": "void SetCameraAccessoryType(CameraAccessoryType type);",
+      "category": "accessory",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 228
+        }
+      ],
+      "usage": "Choose exact CameraAccessoryType from metadata/known physical accessory. Demo defaults kNormal (0); use -1 for auto-detection rather than assume bare lenses."
+    },
+    {
+      "symbol": "ins::VideoStitcher::EnableDeflicker",
+      "signature": "void EnableDeflicker(bool enable);",
+      "category": "enhancement",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 233
+        }
+      ],
+      "usage": "Toggle deflicker on video/realtime. No still method or strength control. Offline demo default off."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetSoftwareCodecUsage",
+      "signature": "void SetSoftwareCodecUsage(bool enable_encoder, bool enable_decoder);",
+      "category": "video-codec",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 240
+        }
+      ],
+      "usage": "Independent software encoder/decoder toggles. Demo defaults both false (prefer hardware); does not remove render-stack requirements."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetImageProcessingAccelType",
+      "signature": "void SetImageProcessingAccelType(ImageProcessingAccel type);",
+      "category": "acceleration",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 246
+        }
+      ],
+      "usage": "Select kAuto (0) or kCPU (1). Demo defaults auto. Independent from CUDA and codec settings."
+    },
+    {
+      "symbol": "ins::VideoStitcher::EnableDefringe",
+      "signature": "void EnableDefringe(bool enable);",
+      "category": "enhancement",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 251
+        }
+      ],
+      "usage": "Toggle video/realtime defringe; no still method. Official guide supports X4 Air/X5/X6, but bundled demo help says X6 skipped: unresolved documentation conflict, so inspect actual feature status/logs."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetExposure",
+      "signature": "void SetExposure(int exposure);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 257
+        }
+      ],
+      "usage": "Set global exposure integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetHighlights",
+      "signature": "void SetHighlights(int highlights);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 263
+        }
+      ],
+      "usage": "Set global highlights integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetShadows",
+      "signature": "void SetShadows(int shadows);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 269
+        }
+      ],
+      "usage": "Set global shadows integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetContrast",
+      "signature": "void SetContrast(int contrast);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 275
+        }
+      ],
+      "usage": "Set global contrast integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetBrightness",
+      "signature": "void SetBrightness(int brightness);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 281
+        }
+      ],
+      "usage": "Set global brightness integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetBlackpoint",
+      "signature": "void SetBlackpoint(int blackpoint);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 287
+        }
+      ],
+      "usage": "Set global blackpoint integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetSaturation",
+      "signature": "void SetSaturation(int saturation);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 293
+        }
+      ],
+      "usage": "Set global saturation integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetVibrance",
+      "signature": "void SetVibrance(int vibrance);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 299
+        }
+      ],
+      "usage": "Set global vibrance integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetWarmth",
+      "signature": "void SetWarmth(int warmth);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 305
+        }
+      ],
+      "usage": "Set global warmth integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetTint",
+      "signature": "void SetTint(int tint);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 311
+        }
+      ],
+      "usage": "Set global tint integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::VideoStitcher::SetDefinition",
+      "signature": "void SetDefinition(int definition);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 317
+        }
+      ],
+      "usage": "Set global detail/definition integer in [0,100]; demo default 0 and clamps input. No negative values or local controls."
+    },
+    {
+      "symbol": "ins::ImageStitcher::ImageStitcher",
+      "signature": "ImageStitcher();",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 329
+        }
+      ],
+      "usage": "Construct stitcher / release owned resources on destruction."
+    },
+    {
+      "symbol": "ins::ImageStitcher::~ImageStitcher",
+      "signature": "~ImageStitcher() = default;",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 330
+        }
+      ],
+      "usage": "Construct stitcher / release owned resources on destruction."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetInputPath",
+      "signature": "void SetInputPath(const std::vector<std::string>& input_paths);",
+      "category": "input",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 337
+        }
+      ],
+      "usage": "Use one logical capture. Official guide: photos accept one or >=3 originals (>=3 implies HDR fusion), never exactly 2; establish bracket membership first. Video at most 2 files: older >=5.7K is dual-file, X4/X5/X4 Air/X6 contain both tracks in one file."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetOutputPath",
+      "signature": "void SetOutputPath(const std::string& output_path);",
+      "category": "output",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 342
+        }
+      ],
+      "usage": "Set a new output file including extension; preserve originals. Official guide specifies .jpg stills and .mp4 video. IMAGE_TYPE PNG/JPEG controls video frame sequences, not still output; test other still extensions before relying on them."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetOutputSize",
+      "signature": "void SetOutputSize(int width, int height);",
+      "category": "output",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 347
+        }
+      ],
+      "usage": "Require explicit positive 2:1 width:height; official guide says SDK does not enforce ratio and other ratios distort panoramas. Video/realtime header defaults source size; offline demo overrides to 1920x960, realtime demo 960x480."
+    },
+    {
+      "symbol": "ins::ImageStitcher::EnableFlowState",
+      "signature": "void EnableFlowState(bool enable);",
+      "category": "stabilization",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 353
+        }
+      ],
+      "usage": "Enable gyro-driven FlowState; documented default off. Realtime needs synchronized gyro samples; validate horizon visually."
+    },
+    {
+      "symbol": "ins::ImageStitcher::EnableColorPlus",
+      "signature": "void EnableColorPlus(bool enable, float strength = 0.3f);",
+      "category": "enhancement",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 360
+        }
+      ],
+      "usage": "Enable model-based automatic color enhancement; default off. Official guide strength range 0\u20131; C++ defaults image 0.3, video 1.0. CLI has no strength flag."
+    },
+    {
+      "symbol": "ins::ImageStitcher::EnableDenoise",
+      "signature": "void EnableDenoise(bool enable);",
+      "category": "enhancement",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 366
+        }
+      ],
+      "usage": "Enable denoise; default off. A toggle does not promise arbitrary strength controls or PureShot/HDR merging."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetStitchType",
+      "signature": "void SetStitchType(STITCH_TYPE type);",
+      "category": "stitching",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 376
+        }
+      ],
+      "usage": "Choose TEMPLATE, OPTFLOW, DYNAMICSTITCH, or AIFLOW. AI needs models. Demo default OPTFLOW; its template option is broken (no parser branch). Use C++ TEMPLATE directly."
+    },
+    {
+      "symbol": "ins::ImageStitcher::EnableCuda",
+      "signature": "void EnableCuda(bool enable);",
+      "category": "acceleration",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 382
+        }
+      ],
+      "usage": "Toggle CUDA stitching acceleration. Offline demo defaults true. False plus CPU image processing is a fallback request, not proof of a GPU-free runtime."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetImageProcessingAccelType",
+      "signature": "void SetImageProcessingAccelType(ImageProcessingAccel type);",
+      "category": "acceleration",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 388
+        }
+      ],
+      "usage": "Select kAuto (0) or kCPU (1). Demo defaults auto. Independent from CUDA and codec settings."
+    },
+    {
+      "symbol": "ins::ImageStitcher::EnableStitchFusion",
+      "signature": "void EnableStitchFusion(bool enable);",
+      "category": "stitching",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 394
+        }
+      ],
+      "usage": "Enable seam fusion; default off and unsupported with TEMPLATE."
+    },
+    {
+      "symbol": "ins::ImageStitcher::EnableCoolingShellDetection",
+      "signature": "void EnableCoolingShellDetection(bool enable);",
+      "category": "accessory",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 400
+        }
+      ],
+      "usage": "Enable camera cooling-shell detection; default off. Official guide limits support to X4 Air/X5/X6; other cameras auto-skip. Models required."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetCameraAccessoryType",
+      "signature": "void SetCameraAccessoryType(CameraAccessoryType type);",
+      "category": "accessory",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 405
+        }
+      ],
+      "usage": "Choose exact CameraAccessoryType from metadata/known physical accessory. Demo defaults kNormal (0); use -1 for auto-detection rather than assume bare lenses."
+    },
+    {
+      "symbol": "ins::ImageStitcher::Stitch",
+      "signature": "bool Stitch();",
+      "category": "lifecycle",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 410
+        }
+      ],
+      "usage": "Run image stitching synchronously and check returned bool. Stock demo discards the bool, so inspect logs and decode a nonempty new output."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetExposure",
+      "signature": "void SetExposure(int exposure);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 416
+        }
+      ],
+      "usage": "Set global exposure integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetHighlights",
+      "signature": "void SetHighlights(int highlights);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 422
+        }
+      ],
+      "usage": "Set global highlights integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetShadows",
+      "signature": "void SetShadows(int shadows);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 428
+        }
+      ],
+      "usage": "Set global shadows integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetContrast",
+      "signature": "void SetContrast(int contrast);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 434
+        }
+      ],
+      "usage": "Set global contrast integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetBrightness",
+      "signature": "void SetBrightness(int brightness);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 440
+        }
+      ],
+      "usage": "Set global brightness integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetBlackpoint",
+      "signature": "void SetBlackpoint(int blackpoint);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 446
+        }
+      ],
+      "usage": "Set global blackpoint integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetSaturation",
+      "signature": "void SetSaturation(int saturation);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 452
+        }
+      ],
+      "usage": "Set global saturation integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetVibrance",
+      "signature": "void SetVibrance(int vibrance);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 458
+        }
+      ],
+      "usage": "Set global vibrance integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetWarmth",
+      "signature": "void SetWarmth(int warmth);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 464
+        }
+      ],
+      "usage": "Set global warmth integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetTint",
+      "signature": "void SetTint(int tint);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 470
+        }
+      ],
+      "usage": "Set global tint integer in [-100,100]; demo default 0 and clamps input. No per-mask/keyframe variant exposed."
+    },
+    {
+      "symbol": "ins::ImageStitcher::SetDefinition",
+      "signature": "void SetDefinition(int definition);",
+      "category": "global-adjustment",
+      "documentation_status": "header-and-example-reviewed",
+      "runtime_status": "not-assessed-in-this-inventory",
+      "sources": [
+        {
+          "path": "include/ins_stitcher.h",
+          "line": 476
+        }
+      ],
+      "usage": "Set global detail/definition integer in [0,100]; demo default 0 and clamps input. No negative values or local controls."
+    }
+  ],
+  "types": [
+    {
+      "name": "ins::STITCH_TYPE",
+      "kind": "enum",
+      "values": [
+        {
+          "name": "TEMPLATE",
+          "value": 0
+        },
+        {
+          "name": "OPTFLOW",
+          "value": 1
+        },
+        {
+          "name": "DYNAMICSTITCH",
+          "value": 2
+        },
+        {
+          "name": "AIFLOW",
+          "value": 3
+        }
+      ],
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 47
+      }
+    },
+    {
+      "name": "ins::IMAGE_TYPE",
+      "kind": "enum",
+      "values": [
+        {
+          "name": "JPEG",
+          "value": 0
+        },
+        {
+          "name": "PNG",
+          "value": 1
+        }
+      ],
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 57
+      }
+    },
+    {
+      "name": "ins::ImageProcessingAccel",
+      "kind": "enum",
+      "values": [
+        {
+          "name": "kAuto",
+          "value": 0
+        },
+        {
+          "name": "kCPU",
+          "value": 1
+        }
+      ],
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 62
+      }
+    },
+    {
+      "name": "ins::CameraAccessoryType",
+      "kind": "enum",
+      "values": [
+        {
+          "name": "kAutoDetect",
+          "value": -1
+        },
+        {
+          "name": "kNormal",
+          "value": 0
+        },
+        {
+          "name": "kWaterproof",
+          "value": 1
+        },
+        {
+          "name": "kOnerLensGuard",
+          "value": 2
+        },
+        {
+          "name": "kOnerLensGuardPro",
+          "value": 3
+        },
+        {
+          "name": "kOnex2LensGuard",
+          "value": 4
+        },
+        {
+          "name": "kOnex2LensGuardPro",
+          "value": 5
+        },
+        {
+          "name": "k283PanoLensGuardPro",
+          "value": 6
+        },
+        {
+          "name": "kDiveCaseAir",
+          "value": 7
+        },
+        {
+          "name": "kDiveCaseWater",
+          "value": 8
+        },
+        {
+          "name": "kInvisibleDiveCaseAir",
+          "value": 9
+        },
+        {
+          "name": "kInvisibleDiveCaseWater",
+          "value": 10
+        },
+        {
+          "name": "kLensGuardA",
+          "value": 11
+        },
+        {
+          "name": "kLensGuardS",
+          "value": 12
+        },
+        {
+          "name": "kLensGuardAS",
+          "value": 13
+        },
+        {
+          "name": "kOnex5ND16",
+          "value": 14
+        },
+        {
+          "name": "kOnex5ND32",
+          "value": 15
+        },
+        {
+          "name": "kOnex5ND64",
+          "value": 16
+        },
+        {
+          "name": "kOner283LensGuardPro",
+          "value": 17
+        },
+        {
+          "name": "kOnerLensGuardFpv",
+          "value": 18
+        },
+        {
+          "name": "kOnex4AirDiveCaseAir",
+          "value": 19
+        },
+        {
+          "name": "kOnex4AirDiveCaseWater",
+          "value": 20
+        },
+        {
+          "name": "kUndetermined",
+          "value": 100
+        }
+      ],
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 68
+      }
+    },
+    {
+      "name": "ins::InsLogLevel",
+      "kind": "enum",
+      "values": [
+        {
+          "name": "VERBOSE",
+          "value": 0
+        },
+        {
+          "name": "INFO",
+          "value": 1
+        },
+        {
+          "name": "WARNING",
+          "value": 2
+        },
+        {
+          "name": "ERR",
+          "value": 3
+        },
+        {
+          "name": "FATAL",
+          "value": 4
+        }
+      ],
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 97
+      }
+    },
+    {
+      "name": "ins::SDKErrorCode",
+      "kind": "enum",
+      "values": [
+        {
+          "name": "E_SUCCESS",
+          "value": 0
+        },
+        {
+          "name": "E_OPEN_FILE",
+          "value": 1
+        },
+        {
+          "name": "E_PARSE_METADATA",
+          "value": 2
+        },
+        {
+          "name": "E_CREATE_OFFSCREEN",
+          "value": 3
+        },
+        {
+          "name": "E_CREATE_RENDER_MODEL",
+          "value": 4
+        },
+        {
+          "name": "E_FRAME_PARSE",
+          "value": 5
+        },
+        {
+          "name": "E_CREATE_RENDER_SOURCE",
+          "value": 6
+        },
+        {
+          "name": "E_UPDATE_RENDER_SOURCE",
+          "value": 7
+        },
+        {
+          "name": "E_RENDER_FRAME",
+          "value": 8
+        },
+        {
+          "name": "E_SAVE_FRAME",
+          "value": 9
+        },
+        {
+          "name": "E_VIDEO_FRAME_EXPORTOR",
+          "value": 10
+        },
+        {
+          "name": "E_FILE_TYPE_UNSUPPORT",
+          "value": 11
+        },
+        {
+          "name": "E_INTERNAL_ERROR",
+          "value": 998
+        },
+        {
+          "name": "E_UNKNOWN",
+          "value": 999
+        }
+      ],
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 108
+      }
+    },
+    {
+      "name": "ins::MediaFileType",
+      "kind": "enum",
+      "values": [
+        {
+          "name": "UNDEFINED",
+          "value": 65535
+        },
+        {
+          "name": "VIDEO_NORMAL",
+          "value": 0
+        },
+        {
+          "name": "VIDEO_BULLETTIME",
+          "value": 1
+        },
+        {
+          "name": "VIDEO_TIMELAPSE",
+          "value": 2
+        },
+        {
+          "name": "VIDEO_HDR",
+          "value": 6
+        },
+        {
+          "name": "VIDEO_STATIC_TIMELAPSE",
+          "value": 8
+        },
+        {
+          "name": "VIDEO_TIMESHIFT",
+          "value": 9
+        },
+        {
+          "name": "VIDEO_SUPER_NORMAL",
+          "value": 11
+        },
+        {
+          "name": "VIDEO_LOOPRECORDING",
+          "value": 12
+        },
+        {
+          "name": "VIDEO_FPV",
+          "value": 15
+        },
+        {
+          "name": "VIDEO_MOVIE",
+          "value": 16
+        },
+        {
+          "name": "VIDEO_SLOWMOTION",
+          "value": 17
+        },
+        {
+          "name": "VIDEO_SELFIE",
+          "value": 18
+        },
+        {
+          "name": "VIDEO_PURE",
+          "value": 20
+        },
+        {
+          "name": "VIDEO_STARLAPSE",
+          "value": 21
+        },
+        {
+          "name": "VIDEO_DASH_CAM",
+          "value": 23
+        },
+        {
+          "name": "VIDEO_VIR_PTZ",
+          "value": 24
+        },
+        {
+          "name": "PHOTO_NORMAL",
+          "value": 3
+        },
+        {
+          "name": "PHOTO_HDR",
+          "value": 4
+        },
+        {
+          "name": "PHOTO_INTERVALSHOOTING",
+          "value": 5
+        },
+        {
+          "name": "PHOTO_BURST",
+          "value": 7
+        },
+        {
+          "name": "PHOTO_AEB_NIGHT_MODE",
+          "value": 10
+        },
+        {
+          "name": "PHOTO_STARLAPSE",
+          "value": 13
+        },
+        {
+          "name": "PHOTO_PANO_MODE",
+          "value": 14
+        },
+        {
+          "name": "PHOTO_PURESHOTPLUS",
+          "value": 19
+        },
+        {
+          "name": "PHOTO_STARTRAIL",
+          "value": 22
+        }
+      ],
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 128
+      }
+    },
+    {
+      "name": "ins::VideoDecodeType",
+      "kind": "enum",
+      "values": [
+        {
+          "name": "kH264",
+          "value": 0
+        },
+        {
+          "name": "kH265",
+          "value": 1
+        }
+      ],
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 161
+      }
+    },
+    {
+      "name": "ins::GyroData",
+      "kind": "struct",
+      "fields": [
+        "int64_t timestamp;",
+        "double ax;",
+        "double ay;",
+        "double az;",
+        "double gx;",
+        "double gy;",
+        "double gz;"
+      ],
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 170
+      }
+    },
+    {
+      "name": "ins::ExposureData",
+      "kind": "struct",
+      "fields": [
+        "double timestamp;",
+        "double exposure_time;"
+      ],
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 184
+      }
+    },
+    {
+      "name": "ins::MediaFileInfo",
+      "kind": "struct",
+      "fields": [
+        "MediaFileType media_type;",
+        "int width;",
+        "int height;",
+        "double fps;",
+        "int64_t bitrate;",
+        "int64_t duration_ms;"
+      ],
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 231
+      }
+    },
+    {
+      "name": "ins::stitch_process_callback",
+      "kind": "callback",
+      "signature": "std::function<void(int process, int error)>",
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 24
+      }
+    },
+    {
+      "name": "ins::stitch_error_callback",
+      "kind": "callback",
+      "signature": "std::function<void(int error, const char* errinfo)>",
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 31
+      }
+    },
+    {
+      "name": "ins::stitch_realtime_data_callback",
+      "kind": "callback",
+      "signature": "std::function<void(uint8_t* data[4], int linesize[4], int width, int height, int format, int64_t timestamp)>",
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 42
+      }
+    },
+    {
+      "name": "ins::CameraInfo",
+      "kind": "class-public-fields",
+      "fields": [
+        "std::string cameraName",
+        "VideoDecodeType decode_type{VideoDecodeType::kH264}",
+        "int64_t gyro_timestamp{0}",
+        "int64_t sweep_timestamp{0}"
+      ],
+      "source": {
+        "path": "include/ins_common.h",
+        "line": 195
+      }
+    }
+  ],
+  "offline_cli": [
+    {
+      "option": "-help",
+      "arguments": "none",
+      "demo_default": "none",
+      "scope": "meta",
+      "usage": "Print options; does not exit immediately and absent input/output still returns -1.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 613
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-model_root_dir",
+      "arguments": "directory ending /",
+      "demo_default": "<exe>/models/",
+      "scope": "both",
+      "usage": "Global model directory; explicit paths are not normalized by the demo.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 379
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-inputs",
+      "arguments": "one or more paths",
+      "demo_default": "required",
+      "scope": "both",
+      "usage": "One logical capture, including all required lens components. Paths beginning with - are unsafe for this parser; use absolute paths.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 363
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-output",
+      "arguments": "new output path",
+      "demo_default": "required unless video frame directory",
+      "scope": "both",
+      "usage": "Still and video file output.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 374
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-stitch_type",
+      "arguments": "template|optflow|dynamicstitch|aistitch",
+      "demo_default": "optflow",
+      "scope": "both",
+      "usage": "BUG: template has no parser branch and stays at existing setting (normally optflow).",
+      "source": {
+        "path": "example/main.cc",
+        "line": 391
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-bitrate",
+      "arguments": "integer bps",
+      "demo_default": "0 (match video input)",
+      "scope": "video",
+      "usage": "Parsed with 32-bit int/atoi although API accepts int64_t.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 464
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-enable_flowstate",
+      "arguments": "flag",
+      "demo_default": "off",
+      "scope": "both",
+      "usage": "Gyroscope stabilization.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 418
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-enable_directionlock",
+      "arguments": "flag",
+      "demo_default": "off",
+      "scope": "video",
+      "usage": "Requires FlowState; ignored for still-image branch.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 445
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-output_size",
+      "arguments": "WIDTHxHEIGHT",
+      "demo_default": "1920x960",
+      "scope": "both",
+      "usage": "Overrides SDK source-size default; validate positive dimensions before invocation.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 469
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-enable_stitchfusion",
+      "arguments": "flag",
+      "demo_default": "off",
+      "scope": "both",
+      "usage": "Unsupported with actual TEMPLATE stitching.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 429
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-enable_denoise",
+      "arguments": "flag",
+      "demo_default": "off",
+      "scope": "both",
+      "usage": "Denoise; source/camera/model-dependent.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 434
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-enable_colorplus",
+      "arguments": "flag",
+      "demo_default": "off",
+      "scope": "both",
+      "usage": "C++ default strength 0.3 for stills and 1.0 for video; no CLI strength.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 439
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-enable_coolingshell",
+      "arguments": "flag",
+      "demo_default": "off",
+      "scope": "both",
+      "usage": "Cooling-shell detection.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 384
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-enable_deflicker",
+      "arguments": "flag",
+      "demo_default": "off",
+      "scope": "video",
+      "usage": "No corresponding ImageStitcher function.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 509
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-enable_defringe",
+      "arguments": "flag",
+      "demo_default": "off",
+      "scope": "video",
+      "usage": "No corresponding ImageStitcher function; help says skipped for X6.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 515
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-image_sequence_dir",
+      "arguments": "new directory",
+      "demo_default": "none",
+      "scope": "video",
+      "usage": "Video frame export; omit indices to export all, potentially many files.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 479
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-image_type",
+      "arguments": "jpg|png",
+      "demo_default": "jpg",
+      "scope": "video",
+      "usage": "Applied only to video frame-sequence output, despite wider comment.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 485
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-export_frame_index",
+      "arguments": "0-20-50 (list)",
+      "demo_default": "all frames",
+      "scope": "video",
+      "usage": "Zero-based individual indices, not an inclusive range.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 503
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-camera_accessory_type",
+      "arguments": "integer enum",
+      "demo_default": "0 (bare camera)",
+      "scope": "both",
+      "usage": "Use known accessory or -1 auto-detect; parser performs no enum validation.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 497
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-enable_h265_encoder",
+      "arguments": "flag",
+      "demo_default": "off / H.264",
+      "scope": "video",
+      "usage": "Video HEVC output.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 452
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-enable_10bit",
+      "arguments": "flag",
+      "demo_default": "off",
+      "scope": "video",
+      "usage": "Requires 10-bit source and H.265; source capability may downgrade.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 459
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-disable_cuda",
+      "arguments": "flag",
+      "demo_default": "absent / CUDA enabled",
+      "scope": "both",
+      "usage": "Disables CUDA request; does not prove all GPU/render requirements removed.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 424
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-enable_soft_encode",
+      "arguments": "flag",
+      "demo_default": "off",
+      "scope": "video",
+      "usage": "Force software video encoding.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 522
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-enable_soft_decode",
+      "arguments": "flag",
+      "demo_default": "off",
+      "scope": "video",
+      "usage": "Force software video decoding.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 525
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-image_processing_accel",
+      "arguments": "auto|cpu",
+      "demo_default": "auto",
+      "scope": "both",
+      "usage": "Independent from CUDA and software codecs.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 407
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "--debug",
+      "arguments": "flag",
+      "demo_default": "off",
+      "scope": "diagnostics",
+      "usage": "Sets log level VERBOSE; order matters relative to --log_level.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 575
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "--log_level",
+      "arguments": "verbose|info|warning|error|fatal",
+      "demo_default": "error",
+      "scope": "diagnostics",
+      "usage": "Case-insensitive; unknown value warns and leaves prior level.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 582
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "--log_file",
+      "arguments": "optional path",
+      "demo_default": "disabled",
+      "scope": "diagnostics",
+      "usage": "Optional file or directory; bare flag writes timestamped log under <exe>/logs/.",
+      "source": {
+        "path": "example/main.cc",
+        "line": 605
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-exposure",
+      "arguments": "integer",
+      "demo_default": "0",
+      "scope": "both",
+      "usage": "Clamped to [-100,100].",
+      "source": {
+        "path": "example/main.cc",
+        "line": 529
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-highlights",
+      "arguments": "integer",
+      "demo_default": "0",
+      "scope": "both",
+      "usage": "Clamped to [-100,100].",
+      "source": {
+        "path": "example/main.cc",
+        "line": 533
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-shadows",
+      "arguments": "integer",
+      "demo_default": "0",
+      "scope": "both",
+      "usage": "Clamped to [-100,100].",
+      "source": {
+        "path": "example/main.cc",
+        "line": 537
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-contrast",
+      "arguments": "integer",
+      "demo_default": "0",
+      "scope": "both",
+      "usage": "Clamped to [-100,100].",
+      "source": {
+        "path": "example/main.cc",
+        "line": 541
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-brightness",
+      "arguments": "integer",
+      "demo_default": "0",
+      "scope": "both",
+      "usage": "Clamped to [-100,100].",
+      "source": {
+        "path": "example/main.cc",
+        "line": 545
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-blackpoint",
+      "arguments": "integer",
+      "demo_default": "0",
+      "scope": "both",
+      "usage": "Clamped to [-100,100].",
+      "source": {
+        "path": "example/main.cc",
+        "line": 549
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-saturation",
+      "arguments": "integer",
+      "demo_default": "0",
+      "scope": "both",
+      "usage": "Clamped to [-100,100].",
+      "source": {
+        "path": "example/main.cc",
+        "line": 553
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-vibrance",
+      "arguments": "integer",
+      "demo_default": "0",
+      "scope": "both",
+      "usage": "Clamped to [-100,100].",
+      "source": {
+        "path": "example/main.cc",
+        "line": 557
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-warmth",
+      "arguments": "integer",
+      "demo_default": "0",
+      "scope": "both",
+      "usage": "Clamped to [-100,100].",
+      "source": {
+        "path": "example/main.cc",
+        "line": 561
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-tint",
+      "arguments": "integer",
+      "demo_default": "0",
+      "scope": "both",
+      "usage": "Clamped to [-100,100].",
+      "source": {
+        "path": "example/main.cc",
+        "line": 565
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    },
+    {
+      "option": "-definition",
+      "arguments": "integer",
+      "demo_default": "0",
+      "scope": "both",
+      "usage": "Clamped to [0,100].",
+      "source": {
+        "path": "example/main.cc",
+        "line": 569
+      },
+      "runtime_status": "not-assessed-in-this-inventory"
+    }
+  ],
+  "realtime_demo": {
+    "workflow_scope": "excluded; inventory only",
+    "flags": [
+      "--debug",
+      "--log_file <path>"
+    ],
+    "interactive_commands": {
+      "0": "quit",
+      "1": "start live preview/stitching",
+      "2": "stop live preview/stitching"
+    },
+    "source": "example/realtime_stitcher_demo.cc",
+    "runtime_status": "not-assessed-in-this-inventory"
+  },
+  "limitations": [
+    "Coverage is all explicit public callable declarations in three headers shipped in this specific MediaSDK 3.1.5 linux64 archive, not every product called Insta360 SDK and not private exported symbols.",
+    "The inventory records static source review only. Runtime evidence belongs to the lab verification report and must not be inferred from documentation coverage.",
+    "Official guide documents DNG/JPEG/INSP photo input and automatic HDR fusion via >=3 photo SetInputPath entries. DNG and HDR support are documented through the image input contract; consult the validation report for executed cases. Stock demo routes only .insp/.jpg and therefore needs a C++ wrapper for DNG/.jpeg.",
+    "No explicit public APIs here for RAW-development controls, PureShot processing, exposure-bracket discovery, local masks/retouch, LUTs, yaw/pitch/FOV keyframes, sphere-to-perspective reframing, little-planet projections, deep tracking, object removal, playback timeline, audio mixing, subtitles, or metadata writing.",
+    "MediaFileType contains HDR/PureShot/night/starlapse classification values; only HDR has an additional documented input-vector behavior. Other enum names are not proof of processing modes.",
+    "ImageStitcher does not expose GetFeatureStatusMap, callbacks, cancellation, defringe, deflicker, direction lock, codec controls, or a denoise strength.",
+    "No documented image 10-bit export control, JPEG quality control, ICC profile selector, or bit-depth selector. Inspect actual exported file.",
+    "No public SetAiStitchModelFile despite stale header comments mentioning it; use SetModelFileRootDir.",
+    "No public GetFrameTimeStampsList: its declaration is commented out.",
+    "SDK_LOG macro depends on an external LOG macro; LOG_VERB/INFO/WARN/ERR/FATAL are enum aliases, not callable SDK entry points."
+  ],
+  "package": {
+    "architecture": "amd64",
+    "installed_size_kib": 11832270,
+    "depends": [
+      "libx11-6",
+      "libgomp1",
+      "libxcb1",
+      "libpng16-16",
+      "libgl1",
+      "libglx0",
+      "libglvnd0",
+      "libegl1",
+      "libjpeg-turbo8",
+      "libxdmcp6",
+      "libbsd0",
+      "libxau6",
+      "libmd0",
+      "libxext6",
+      "libvulkan1",
+      "libglfw3",
+      "libdc1394-dev",
+      "libopenblas0"
+    ],
+    "evidence": "ar -p MediaSDK-3.1.5-linux-amd64.deb control.tar.gz | tar -xzO ./control"
+  }
+}

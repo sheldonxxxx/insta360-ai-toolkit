@@ -1,0 +1,4 @@
+interface:
+  display_name: "Insta360 Postprocessing"
+  short_description: "Stitch, enhance, and verify saved Insta360 media"
+  default_prompt: "Use $insta360-sdk to postprocess an Insta360 photo and prepare it for AI photo editing."

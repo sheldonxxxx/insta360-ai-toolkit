@@ -1,0 +1,135 @@
+{
+  "scope": "All 11 explicit public MetaDataParser callable declarations (constructor, destructor, and nine operations). Excludes implicit C++ members. Header coverage is not runtime verification.",
+  "entries": [
+    {
+      "sdk": "InsMetaDataSDK-20260629_184813-2.0.2-linux64-default",
+      "header": "include/metaData.h",
+      "line": 29,
+      "owner": "MetaDataParser",
+      "name": "MetaDataParser",
+      "signature": "MetaDataParser();",
+      "kind": "declaration",
+      "evidence": "header"
+    },
+    {
+      "sdk": "InsMetaDataSDK-20260629_184813-2.0.2-linux64-default",
+      "header": "include/metaData.h",
+      "line": 30,
+      "owner": "MetaDataParser",
+      "name": "~MetaDataParser",
+      "signature": "~MetaDataParser();",
+      "kind": "declaration",
+      "evidence": "header"
+    },
+    {
+      "sdk": "InsMetaDataSDK-20260629_184813-2.0.2-linux64-default",
+      "header": "include/metaData.h",
+      "line": 37,
+      "owner": "MetaDataParser",
+      "name": "Parse",
+      "signature": "bool Parse(const std::string& filePath);",
+      "kind": "declaration",
+      "evidence": "header"
+    },
+    {
+      "sdk": "InsMetaDataSDK-20260629_184813-2.0.2-linux64-default",
+      "header": "include/metaData.h",
+      "line": 43,
+      "owner": "MetaDataParser",
+      "name": "GetGPSData",
+      "signature": "bool GetGPSData(std::vector<GpsDataItem_t>& GpsData);",
+      "kind": "declaration",
+      "evidence": "header"
+    },
+    {
+      "sdk": "InsMetaDataSDK-20260629_184813-2.0.2-linux64-default",
+      "header": "include/metaData.h",
+      "line": 49,
+      "owner": "MetaDataParser",
+      "name": "GetGyroData",
+      "signature": "bool GetGyroData(std::vector<GyroDataItem_t>& GyroData);",
+      "kind": "declaration",
+      "evidence": "header"
+    },
+    {
+      "sdk": "InsMetaDataSDK-20260629_184813-2.0.2-linux64-default",
+      "header": "include/metaData.h",
+      "line": 55,
+      "owner": "MetaDataParser",
+      "name": "GetExposureData",
+      "signature": "bool GetExposureData(std::vector<ExposureDataItem_t>& ExposureData);",
+      "kind": "declaration",
+      "evidence": "header"
+    },
+    {
+      "sdk": "InsMetaDataSDK-20260629_184813-2.0.2-linux64-default",
+      "header": "include/metaData.h",
+      "line": 61,
+      "owner": "MetaDataParser",
+      "name": "GetTimelapsePtsData",
+      "signature": "bool GetTimelapsePtsData(std::vector<RawTimelapseItem_t>& RawTimelapsePtsData);",
+      "kind": "declaration",
+      "evidence": "header"
+    },
+    {
+      "sdk": "InsMetaDataSDK-20260629_184813-2.0.2-linux64-default",
+      "header": "include/metaData.h",
+      "line": 68,
+      "owner": "MetaDataParser",
+      "name": "GetFirstTimeStamp",
+      "signature": "int64_t GetFirstTimeStamp() const;",
+      "kind": "declaration",
+      "evidence": "header"
+    },
+    {
+      "sdk": "InsMetaDataSDK-20260629_184813-2.0.2-linux64-default",
+      "header": "include/metaData.h",
+      "line": 75,
+      "owner": "MetaDataParser",
+      "name": "GetFireWareVersion",
+      "signature": "std::string GetFireWareVersion() const;",
+      "kind": "declaration",
+      "evidence": "header"
+    },
+    {
+      "sdk": "InsMetaDataSDK-20260629_184813-2.0.2-linux64-default",
+      "header": "include/metaData.h",
+      "line": 82,
+      "owner": "MetaDataParser",
+      "name": "GetCameraType",
+      "signature": "std::string GetCameraType() const;",
+      "kind": "declaration",
+      "evidence": "header"
+    },
+    {
+      "sdk": "InsMetaDataSDK-20260629_184813-2.0.2-linux64-default",
+      "header": "include/metaData.h",
+      "line": 89,
+      "owner": "MetaDataParser",
+      "name": "GetSerialNumber",
+      "signature": "std::string GetSerialNumber() const;",
+      "kind": "declaration",
+      "evidence": "header"
+    }
+  ],
+  "counts_by_owner": {
+    "MetaDataParser": 11
+  },
+  "headers": [
+    {
+      "path": "sdk/InsMetaDataSDK-20260629_184813-2.0.2-linux64-default/include/metaData.h",
+      "sha256": "d6b0c02c0b2866d5ee5892b56d5d8402636943852ef3fdcb8169143ede2f9733"
+    },
+    {
+      "path": "sdk/InsMetaDataSDK-20260629_184813-2.0.2-linux64-default/include/common.h",
+      "sha256": "ebce3eace948362cf79765392ed32ce74a0eaae8d84d8d8ef41f10208306788e"
+    }
+  ],
+  "record_types": [
+    "ExposureDataItem_t",
+    "GpsDataItem_t",
+    "GyroDataItem_t",
+    "TimelapseQuatDataItem",
+    "RawTimelapseItem_t"
+  ]
+}

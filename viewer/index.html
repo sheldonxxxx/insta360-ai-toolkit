@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#141716">
+  <title>Local 360 · Insta360 AI Toolkit</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <main id="viewer" aria-label="360 photo viewer">
+    <canvas id="panorama" tabindex="0" aria-label="Interactive panorama. Drag or use arrow keys to look around. Scroll or use plus and minus to zoom."></canvas>
+    <div class="shade shade-top"></div><div class="shade shade-bottom"></div>
+    <header class="topbar">
+      <div class="brand"><span class="brand-orbit" aria-hidden="true"></span><div><strong>Local 360<span class="brand-dot">.</span></strong><span class="eyebrow">INSTA360 AI TOOLKIT</span></div></div>
+      <div class="top-actions">
+        <span class="local-note"><i></i> On your device</span>
+        <button id="samples-toggle" hidden class="button glass" aria-expanded="false" aria-controls="samples-panel"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Photos</span></button>
+        <button id="open-photo" class="button primary"><svg viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5M4 16v4h16v-4"/></svg><span>Open photo</span></button>
+        <input id="file-input" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden>
+      </div>
+    </header>
+    <section id="samples-panel" class="panel glass" aria-label="Preloaded panoramas" hidden>
+      <div class="panel-heading"><span>PRELOADED PHOTOS</span><button id="samples-close" class="icon-button" aria-label="Close photos">×</button></div>
+      <div id="sample-list"></div>
+      <p class="panel-note">Already stitched. Ready to explore.</p>
+    </section>
+    <div id="loading" class="loading" role="status"><span class="loader" aria-hidden="true"></span><strong>Opening your panorama</strong><span>A little more room to look around.</span></div>
+    <div id="empty-state" class="empty-state" hidden><span class="empty-orbit">360°</span><h1>A whole scene.<br>One photograph.</h1><p>Open a stitched 2:1 panorama to look around.</p><button id="empty-open" class="button primary">Choose a photo</button><span class="formats">JPEG · PNG · WebP</span></div>
+    <div id="toast" class="toast glass" role="alert" hidden></div>
+    <div id="drop-zone" class="drop-zone" hidden><div><span class="empty-orbit">+</span><h2>Drop into the scene.</h2><p>Stitched 2:1 panoramas · JPEG, PNG, WebP</p></div></div>
+    <div class="view-label" id="view-label" hidden><span class="view-dot"></span><span id="heading-value">0°</span><span class="view-divider"></span><span>360° VIEW</span></div>
+    <footer id="bottom-ui" class="bottom-ui" hidden>
+      <div id="gesture-hint" class="gesture-hint">Drag to look around <span>·</span> Scroll to zoom</div>
+      <div class="bottom-row">
+        <div class="photo-caption"><span class="eyebrow">EXPLORING</span><h1 id="photo-title">Your panorama</h1><span id="photo-meta"></span></div>
+        <div class="controls glass" role="group" aria-label="Panorama controls">
+          <button id="rotate" class="icon-button" aria-label="Start auto-rotate" aria-pressed="false" title="Auto-rotate (Space)"><svg class="play-icon" viewBox="0 0 24 24"><path d="m9 5 11 7-11 7Z"/></svg><svg class="pause-icon" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg></button>
+          <button id="reset" class="icon-button" aria-label="Reset view" title="Reset view (R)"><svg viewBox="0 0 24 24"><path d="M3 10a9 9 0 1 1 2 8M3 4v6h6"/></svg></button>
+          <span class="control-divider"></span>
+          <button id="zoom-out" class="icon-button" aria-label="Zoom out" title="Zoom out (−)"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+          <label class="sr-only" for="zoom">Zoom</label><input id="zoom" type="range" min="35" max="110" value="75" aria-valuetext="75 degree field of view">
+          <button id="zoom-in" class="icon-button" aria-label="Zoom in" title="Zoom in (+)"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></svg></button>
+          <span class="control-divider"></span>
+          <button id="fullscreen" class="icon-button" aria-label="Enter fullscreen" title="Fullscreen (F)"><svg viewBox="0 0 24 24"><path d="M3 9V3h6m6 0h6v6M3 15v6h6m6 0h6v-6"/></svg></button>
+        </div>
+        <button id="help-toggle" class="icon-button help glass" aria-label="Show keyboard shortcuts" aria-expanded="false" aria-controls="help-panel">?</button>
+      </div>
+    </footer>
+    <section id="help-panel" class="panel help-panel glass" aria-label="Viewer help" hidden><div class="panel-heading"><span>MAKE YOURSELF AT HOME</span><button id="help-close" class="icon-button" aria-label="Close help">×</button></div><dl><div><dt>Look around</dt><dd>Drag / <kbd>↑ ↓ ← →</kbd></dd></div><div><dt>Zoom</dt><dd>Scroll / pinch / <kbd>+ −</kbd></dd></div><div><dt>Auto-rotate</dt><dd><kbd>Space</kbd></dd></div><div><dt>Reset view</dt><dd><kbd>R</kbd></dd></div><div><dt>Fullscreen</dt><dd><kbd>F</kbd></dd></div></dl><p>Open a file or drop it anywhere. Photos stay on this device. Raw INSP/DNG files need stitching first.</p></section>
+    <div id="announcer" class="sr-only" aria-live="polite"></div>
+  </main>
+</body>
+</html>

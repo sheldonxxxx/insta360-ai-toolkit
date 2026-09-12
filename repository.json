@@ -1,0 +1,23 @@
+{
+  "name": "insta360-ai-toolkit",
+  "display_name": "Insta360 AI Toolkit",
+  "description": "Give your AI agent an Insta360 photo workflow: stitching, HDR, FlowState and a local 360° viewer. SDK helpers tested on Mac.",
+  "topics": [
+    "insta360",
+    "360-photos",
+    "panorama",
+    "image-stitching",
+    "ai-agents",
+    "agent-skills",
+    "codex",
+    "photo-editing",
+    "hdr",
+    "flowstate",
+    "mediasdk",
+    "docker",
+    "macos",
+    "panorama-viewer",
+    "webgl"
+  ],
+  "social_preview": "docs/assets/social-preview.png"
+}

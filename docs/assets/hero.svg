@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+  <title id="title">Insta360 AI Toolkit — Give your AI agent the full picture.</title>
+  <desc id="desc">An original illustration of a spherical coordinate grid. INSP stitching, HDR, FlowState verified exports and a local 360° viewer. Tested on Mac with Docker.</desc>
+  <defs>
+    <radialGradient id="glow"><stop stop-color="#28584d"/><stop offset="1" stop-color="#101c25"/></radialGradient>
+    <linearGradient id="arc"><stop stop-color="#b8f787"/><stop offset="1" stop-color="#67d3d4"/></linearGradient>
+    <clipPath id="sphere"><circle cx="1033" cy="287" r="224"/></clipPath>
+  </defs>
+  <rect width="1280" height="640" fill="#0b141d"/>
+  <path d="M0 552H1280" stroke="#293943"/>
+  <circle cx="1033" cy="287" r="276" fill="url(#glow)" opacity=".8"/>
+  <g fill="none" stroke="#52877d" stroke-width="1.4" opacity=".55" clip-path="url(#sphere)" transform="rotate(-22 1033 287)">
+    <circle cx="1033" cy="287" r="224"/>
+    <ellipse cx="1033" cy="287" rx="165" ry="224"/>
+    <ellipse cx="1033" cy="287" rx="86" ry="224"/>
+    <path d="M1033 63V511"/>
+    <ellipse cx="1033" cy="287" rx="224" ry="165"/>
+    <ellipse cx="1033" cy="287" rx="224" ry="86"/>
+    <path d="M809 287H1257"/>
+  </g>
+  <ellipse cx="1033" cy="287" rx="247" ry="79" transform="rotate(-22 1033 287)" fill="none" stroke="url(#arc)" stroke-width="3"/>
+  <circle cx="853" cy="411" r="6" fill="#b8f787"/>
+  <path d="M841 422l-29 28" stroke="#b8f787" stroke-width="1.5"/>
+  <text x="947" y="304" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="700" fill="#d7f6d7">360°</text>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <rect x="64" y="64" width="38" height="38" rx="10" fill="#b8f787"/>
+    <path d="M73 83a10 10 0 0 1 20 0a10 10 0 0 1-20 0m10-10v20m-10-10h20" fill="none" stroke="#11231d" stroke-width="1.6"/>
+    <text x="118" y="90" fill="#d9e6e5" font-size="23" font-weight="700">Insta360 AI Toolkit</text>
+    <text x="64" y="164" fill="#b8f787" font-size="13" letter-spacing="2.5" font-weight="700">360° PHOTOS × AI AGENTS</text>
+    <text x="60" y="248" fill="#f4f6f4" font-size="64" font-weight="700" letter-spacing="-2">Give your AI agent</text>
+    <text x="60" y="322" fill="#f4f6f4" font-size="64" font-weight="700" letter-spacing="-2">the full picture.</text>
+    <text x="64" y="379" fill="#a7bac0" font-size="23">From native INSP to a panorama ready to edit.</text>
+    <g fill="#dae7e8" font-size="15">
+      <rect x="64" y="427" width="113" height="38" rx="19" fill="#182a34"/><text x="86" y="452">Stitching</text>
+      <rect x="187" y="427" width="77" height="38" rx="19" fill="#182a34"/><text x="208" y="452">HDR</text>
+      <rect x="274" y="427" width="127" height="38" rx="19" fill="#182a34"/><text x="296" y="452">FlowState</text>
+      <rect x="411" y="427" width="161" height="38" rx="19" fill="#182a34"/><text x="434" y="452">Verified exports</text>
+      <rect x="582" y="427" width="145" height="38" rx="19" fill="#182a34"/><text x="601" y="452">360° viewer</text>
+    </g>
+    <text x="64" y="601" fill="#f4f6f4" font-size="19" font-weight="700">insta360-ai-toolkit</text>
+    <text x="701" y="601" fill="#a7bac0" font-size="16">Local Docker tools · Tested on Mac · MIT</text>
+  </g>
+</svg>
