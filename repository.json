@@ -1,7 +1,7 @@
 {
   "name": "insta360-ai-toolkit",
   "display_name": "Insta360 AI Toolkit",
-  "description": "Give your AI agent an Insta360 photo workflow: stitching, HDR, FlowState and a local 360° viewer. SDK helpers tested on Mac.",
+  "description": "Prepare Insta360 photos with your AI agent: Studio RAW export, local SDK stitching, HDR, FlowState and a 360° viewer. An optional Lightweft companion.",
   "topics": [
     "insta360",
     "360-photos",
@@ -16,6 +16,7 @@
     "mediasdk",
     "docker",
     "macos",
+    "linux",
     "panorama-viewer",
     "webgl"
   ],

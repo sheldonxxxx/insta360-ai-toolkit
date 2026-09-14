@@ -3,6 +3,7 @@
   "files": [
     ".github/workflows/validate.yml",
     ".gitignore",
+    "CHANGELOG.md",
     "LICENSE",
     "NOTICE.md",
     "README.md",
@@ -11,7 +12,6 @@
     "docs/assets/hero.svg",
     "docs/assets/social-preview.png",
     "docs/distribution.md",
-    "docs/launch.md",
     "docs/validation.md",
     "repository.json",
     "skills/insta360-sdk/SKILL.md",

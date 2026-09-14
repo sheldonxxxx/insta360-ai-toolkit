@@ -2,9 +2,9 @@
 
 ## Scope and evidence
 
-Source root: `sdk/InsMetaDataSDK-20260629_184813-2.0.2-linux64-default/` in the lab workspace. Locations below are relative to that directory. The complete public API has **11 explicit callable declarations**: constructor, destructor, and nine operations. It extracts telemetry and camera identity; it does not stitch, reframe, develop RAW, modify metadata, or write photographs. Use [MediaSDK](media-sdk.md) for postprocessing. No camera connection or CameraSDK is required.
+Source archive: `InsMetaDataSDK-20260629_184813-2.0.2-linux64-default`. Locations below and header paths in the inventory are relative to the separately downloaded archive, which is not included in this repository. The complete public API has **11 explicit callable declarations**: constructor, destructor, and nine operations. It extracts telemetry and camera identity; it does not stitch, reframe, develop RAW, modify metadata, or write photographs. Use [MediaSDK](media-sdk.md) for postprocessing. No camera connection or CameraSDK is required.
 
-The class comment says INSV, while the delivered `example/main.cc:5` explicitly names `.insv` **and `.insp`** and supplies an INSP usage example. Treat those as documented input families, and check `Parse` on each actual file. Do not promise support for generic JPEG, DNG, edited exports, or telemetry that the source never recorded. Header coverage is separate from runtime evidence; see the task's verification results for tested files and outcomes. The machine-readable declaration inventory and header hashes are in [metadata-api-inventory.json](metadata-api-inventory.json).
+The class comment says INSV, while the delivered `example/main.cc:5` explicitly names `.insv` **and `.insp`** and supplies an INSP usage example. Treat those as documented input families, and check `Parse` on each actual file. Do not promise support for generic JPEG, DNG, edited exports, or telemetry that the source never recorded. Header coverage is separate from runtime evidence; see the [verification reference](verification.md#metadata-runtime-results) for tested files and outcomes. The machine-readable declaration inventory and header hashes are in [metadata-api-inventory.json](metadata-api-inventory.json).
 
 ## Workflow
 

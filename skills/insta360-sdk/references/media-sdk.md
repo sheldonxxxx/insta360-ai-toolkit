@@ -1,6 +1,6 @@
 # MediaSDK 3.1.5 complete public API reference
 
-Scope: the three public C++ headers and both examples in `MediaSDK-3.1.5-20260819-linux64`, reviewed 2026-09-12 and reconciled with the [official MediaSDK guide](https://github.com/Insta360Develop/Insta360-Developer_Docs/blob/main/docs/en/sdk/x-ace-go/desktop/media.md). This is a source-reviewed capability inventory; it does not assert runtime success. Check the skill validation report for executed cases. The requested workflow is **offline postprocessing**: CameraSDK/capture is excluded; realtime MediaSDK signatures are indexed only for completeness.
+Scope: the three public C++ headers and both examples in `MediaSDK-3.1.5-20260819-linux64`, reviewed 2026-09-12 and reconciled with the [official MediaSDK guide](https://github.com/Insta360Develop/Insta360-Developer_Docs/blob/main/docs/en/sdk/x-ace-go/desktop/media.md). This is a source-reviewed capability inventory; it does not assert runtime success. Check the [verification reference](verification.md) for executed cases. The executable workflow is **offline postprocessing**: CameraSDK/capture is excluded; realtime MediaSDK signatures are indexed only for completeness.
 
 Coverage: **98 unique public callable declarations**, including constructors/destructors and CameraInfo copy/assignment; **39 offline demo options**. Duplicate environment declarations in offline/realtime headers are merged. Exact signatures, line references, enum values, and source hashes are in [media-api-inventory.json](media-api-inventory.json). Source paths are relative to the supplied SDK root, so locate them in the user's installed archive.
 
@@ -13,7 +13,7 @@ Coverage: **98 unique public callable declarations**, including constructors/des
 | Extract stitched video frames | Video stitcher + image sequence + optional zero-based indices | JPEG/PNG; no indices can write the entire video. |
 | Inspect capture properties | `GetMediaFileInfo()` | Type, dimensions, frame rate, bitrate, duration only. |
 | Stabilize/lock horizon | FlowState; direction lock for video/live | Needs source gyro; no arbitrary yaw/pitch/FOV controls. |
-| Realtime MediaSDK methods | Inventory only | Outside the requested postprocessing workflow; no capture operations. |
+| Realtime MediaSDK methods | Inventory only | Reference only; no capture operations in this toolkit. |
 | Grade/enhance | 11 global controls; ColorPlus/denoise; other enhancements by class | Global operations; no masks, retouch, LUT, or adjustment keyframes. |
 | Reframe/view/export perspective crops | Separate downstream software | This release exposes no reframe/projection/playback API. |
 | DNG/HDR photo processing | C++ `ImageStitcher`; one input or >=3 established bracket members | Documented support; consult validation results for tested source cases. Exactly two photo inputs invalid. |
@@ -54,7 +54,7 @@ Defaults below are identified as header defaults or demo defaults. Unspecified c
 | `void SetLogPath(const std::string& log_path);` | Set logging destination. Header says directory; demo passes a full file path after making its parent. Verify logs were written. | `include/ins_realtime_stitcher.h:33`; `include/ins_stitcher.h:33` |
 | `void SetLogLevel(InsLogLevel level);` | Choose VERBOSE/INFO/WARNING/ERR/FATAL. Demo default ERR; use INFO to see degradation warnings. | `include/ins_realtime_stitcher.h:39`; `include/ins_stitcher.h:39` |
 | `void SetModelFileRootDir(const std::string& root_dir);` | Point to bundled model root with a trailing slash. Default demo location: models/ beside executable. Missing models may skip features. | `include/ins_stitcher.h:46` |
-| `bool GetMediaFileInfo(const std::vector<std::string>& file_paths, MediaFileInfo& info);` | Parse input path vector into MediaFileInfo; validate both bool AND fields. Lab INSP probe returned true with all-zero dimensions/type/rate/duration; unusable photo properties require metadata/EXIF fallback. No demo CLI query. | `include/ins_stitcher.h:54` |
+| `bool GetMediaFileInfo(const std::vector<std::string>& file_paths, MediaFileInfo& info);` | Parse input path vector into MediaFileInfo; validate both bool AND fields. The tested INSP probe returned true with all-zero dimensions/type/rate/duration; unusable photo properties require metadata/EXIF fallback. No demo CLI query. | `include/ins_stitcher.h:54` |
 
 ### ins::CameraInfo
 
@@ -259,7 +259,7 @@ All boolean switches are presence-only: do not append `true`/`false`. Quote UTF-
 
 ### Example recipes (templates, not a record of tests)
 
-Use the executable from the configured Linux environment and substitute absolute paths inside that environment. Create output directories first. A small still baseline:
+Use the executable from the configured Linux environment and substitute absolute paths inside that environment. Create output directories first. Capture stderr and omit optional SDK file logging by default; the tested photo runtime showed teardown crashes with file logging enabled. See [runtime guidance](runtime.md#tested-platform). A small still baseline:
 
 ```sh
 MediaSDKTest -inputs /work/samples/photo.insp \
@@ -267,7 +267,7 @@ MediaSDKTest -inputs /work/samples/photo.insp \
   -stitch_type optflow -camera_accessory_type -1 \
   -disable_cuda -image_processing_accel cpu \
   -model_root_dir /opt/MediaSDK-3.1.5-linux/bin/models/ \
-  --log_level info --log_file /work/outputs/photo-baseline.log
+  --log_level info 2> /work/outputs/photo-baseline.log
 ```
 
 Compare one change per candidate (FlowState, accessory choice, stitch type, denoise, ColorPlus). Increase to an explicit source-appropriate full panorama size only after the baseline decodes and seam/horizon/color have been inspected. For `TEMPLATE`, use the C++ API because the stock parser ignores that name.
@@ -281,7 +281,7 @@ MediaSDKTest -inputs /work/samples/lens00.insv /work/samples/lens10.insv \
   -enable_flowstate -enable_directionlock -camera_accessory_type -1 \
   -disable_cuda -image_processing_accel cpu -enable_soft_decode \
   -model_root_dir /opt/MediaSDK-3.1.5-linux/bin/models/ \
-  --log_level info --log_file /work/outputs/frames.log
+  --log_level info 2> /work/outputs/frames.log
 ```
 
 For normal video use `-output new.mp4` instead of the image-sequence options; add software encode as needed. Use `-enable_h265_encoder -enable_10bit` only for a verified 10-bit source and inspect the actual output codec/pixel format. The API also exposes stabilization-data export, ColorPlus strength, cancellation, metadata queries, and live-packet APIs that have no CLI equivalents.
@@ -302,12 +302,12 @@ Stock demo success hazards (`main.cc:618–642,721–755,855–907`): it discard
 
 For video, save the actual feature map, including any skipped/failed entries. Check the `[Codec] encode=..., decode=..., format=...` log to distinguish requested from actual codec paths. Official automatic rules include H.264 above 4096 → software encoding, Windows dimensions <=360 → software encoding, and 10-bit source plus denoise/defringe/deflicker → automatic 10-bit export/H.265. The guide supports X6 defringe while the bundled help says it is skipped, so runtime evidence decides that case.
 
-For stills no feature-status method exists: compare matched-geometry candidates and logs. `GetMediaFileInfo()` returned true with all-zero fields on the lab native INSP probe, so treat zero dimensions/type as unavailable and consult dedicated metadata/EXIF readers. Hash originals before/after and store only new outputs. Keep an explicit 2:1 full-sphere master for the downstream photo-editing/viewing workflow; a perspective crop is a derivative made by a separate tool.
+For stills no feature-status method exists: compare matched-geometry candidates and logs. `GetMediaFileInfo()` returned true with all-zero fields on the tested native INSP probe, so treat zero dimensions/type as unavailable and consult dedicated metadata/EXIF readers. Hash originals before/after and store only new outputs. Keep an explicit 2:1 full-sphere master for the downstream photo-editing/viewing workflow; a perspective crop is a derivative made by a separate tool.
 
 ## Explicit limits
 
 - Coverage is all explicit public callable declarations in three headers shipped in this specific MediaSDK 3.1.5 linux64 archive, not every product called Insta360 SDK and not private exported symbols.
-- The inventory records static source review only. Runtime evidence belongs to the lab verification report and must not be inferred from documentation coverage.
+- The inventory records static source review only. Runtime evidence belongs to the [verification reference](verification.md) and must not be inferred from documentation coverage.
 - Official guide documents DNG/JPEG/INSP photo input and automatic HDR fusion via >=3 photo SetInputPath entries. DNG and HDR support are documented through the image input contract; consult the validation report for executed cases. Stock demo routes only .insp/.jpg and therefore needs a C++ wrapper for DNG/.jpeg.
 - No explicit public APIs here for RAW-development controls, PureShot processing, exposure-bracket discovery, local masks/retouch, LUTs, yaw/pitch/FOV keyframes, sphere-to-perspective reframing, little-planet projections, deep tracking, object removal, playback timeline, audio mixing, subtitles, or metadata writing.
 - MediaFileType contains HDR/PureShot/night/starlapse classification values; only HDR has an additional documented input-vector behavior. Other enum names are not proof of processing modes.

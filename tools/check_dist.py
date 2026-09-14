@@ -19,7 +19,7 @@ PATTERNS = [
 ]
 ALLOWED_SUFFIXES = {'.md', '.json', '.yaml', '.yml', '.py', '.cc', '.svg', '.html', '.js', '.css'}
 ALLOWED_NAMES = {'LICENSE', 'VERSION', 'Dockerfile', '.gitignore', '.dockerignore'}
-LOCAL_ROOTS = {'.git', 'dist', '.venv', 'sdk', 'samples', 'outputs', 'research', 'runtime'}
+LOCAL_ROOTS = {'.git', '.local', 'dist', '.venv', 'sdk', 'samples', 'outputs', 'research', 'runtime'}
 
 
 def local_root(name):

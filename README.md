@@ -6,7 +6,11 @@
 
 [Get started](#get-started) · [Try a prompt](#one-prompt-a-complete-photo-workflow) · [360° viewer](#explore-your-panorama) · [What works](#what-we-verified) · [SDK reference](skills/insta360-sdk/references/media-sdk.md) · [MIT license](LICENSE)
 
-**Tested on Mac and Linux** · **Bring your own Insta360 SDK** · **Saved-photo postprocessing**
+**Saved-photo postprocessing** · **Studio or bring-your-own SDK** · **SDK-free panorama viewer**
+
+> **For the full Studio feature set and best results, we recommend Insta360 Studio.** Where your AI agent supports computer use, have it operate the installed Studio application and inspect the exported images. Otherwise, use Studio manually. The [Studio DNG workflow](skills/insta360-sdk/references/runtime.md#studio-full-sphere-dng-export) provides a verified RAW-derived route into further photo editing.
+>
+> **The SDK route has limitations.** This toolkit automates selected SDK features; it does not provide Studio feature parity. In our tested SDK build, direct DNG stitching failed image acceptance, and successful GPU-assisted AI stitching combined NVIDIA compute with software OpenGL rendering. Full NVIDIA graphics remains unverified. See [what we verified](#what-we-verified) before choosing the SDK route.
 
 ## Your camera captures the sphere. Your agent handles the workflow.
 
@@ -25,6 +29,20 @@ Native INSP → inspect & group → stitch / HDR / FlowState → verify → 360�
 - **Reuse the setup.** One SDK directory can serve multiple projects, each with its own originals and results.
 
 The included installer targets Codex. Other file- and terminal-capable agents can read [SKILL.md](skills/insta360-sdk/SKILL.md) directly or install the folder in their skill directory. The toolkit supplies an agent skill and CLI helpers; your chosen agent provides the language model. Its own data-handling settings still apply.
+
+## Independent tools, one photo workflow
+
+This toolkit works on its own. [Lightweft](https://github.com/sheldonxxxx/lightweft) is the central workspace for the wider AI photo-editing ecosystem: image-specific direction, personal style exploration and shared visual review. Add this toolkit when a photo needs Insta360 preparation, and add the independently maintained [RapidRAW fork](https://github.com/sheldonxxxx/RapidRAW) when you want a tested native editing engine with optional MCP control. Each project has its own installation, releases and requirements.
+
+```text
+Insta360 AI Toolkit: prepare a sphere or flat reframe
+                       ↓
+Lightweft: direct the edit → review candidates → refine your style
+                       ↕
+RapidRAW or another available editor: edit and export
+```
+
+Use the [editing handoff](skills/insta360-sdk/references/photo-edit-handoff.md) to carry source identity, processing settings and the chosen representation into the editor. Lightweft and RapidRAW are optional; installing this toolkit does not install either companion.
 
 ## One prompt, a complete photo workflow
 
@@ -45,11 +63,31 @@ Photo-editor integration depends on the editor and tools available to your agent
 
 ## Get started
 
-You need **Python 3.10+**, a running Docker engine capable of `linux/amd64`, and approved **Linux MediaSDK and InsMetaDataSDK** downloads. Pillow is used for image verification; NumPy is also required for the optional sphere reprojection and metadata helper; developed RGB16 TIFF reprojection additionally requires tifffile and imagecodecs. The separate [Studio DNG route](skills/insta360-sdk/references/runtime.md#studio-full-sphere-dng-export) uses the installed Studio application and does not require the SDK or Docker. The SDK was tested in **Ubuntu 22.04 amd64 containers on Apple Silicon and x86-64 Linux**, with a qualified NVIDIA compute/Mesa path on the Linux host.
+Choose the route that fits your source and desired result:
+
+| Start with | Use | Prerequisites |
+|---|---|---|
+| An already stitched panorama | [Local 360 viewer](#explore-your-panorama) | Python 3.10+ and a WebGL browser; no agent, SDK or Docker |
+| Native 360 DNG and its paired INSP | [Studio full-sphere DNG export](skills/insta360-sdk/references/runtime.md#studio-full-sphere-dng-export) | Installed Insta360 Studio and a qualified RAW editor |
+| Native INSP for repeatable agent/CLI processing | SDK setup below | Python 3.10+, Docker and separately approved SDK downloads |
+| An ordinary flat photo | [Lightweft](https://github.com/sheldonxxxx/lightweft) or your editor | No Insta360 processing required |
+
+Download the source or clone the independent repository:
+
+```sh
+git clone https://github.com/sheldonxxxx/insta360-ai-toolkit.git
+cd insta360-ai-toolkit
+```
+
+The prompts work after installing the skill and satisfying the selected route's requirements. The viewer can be tried immediately with your own stitched panorama.
+
+### SDK prerequisites
+
+You need **Python 3.10+**, a running Docker engine capable of `linux/amd64`, and approved **Linux MediaSDK and InsMetaDataSDK** downloads. Pillow is used for image verification; NumPy is also required for the optional sphere reprojection and delivery-metadata helper; developed RGB16 TIFF reprojection additionally requires tifffile and imagecodecs. The separate [Studio DNG route](skills/insta360-sdk/references/runtime.md#studio-full-sphere-dng-export) uses the installed Studio application and does not require the SDK or Docker. The SDK was tested in **Ubuntu 22.04 amd64 containers on Apple Silicon and x86-64 Linux**, with a qualified NVIDIA compute/Mesa path on the Linux host.
 
 ### 1. Get the SDK from Insta360
 
-Apply at the [official Insta360 SDK application page](https://www.insta360.com/sdk/apply). Describe offline photo postprocessing with MediaSDK, complete the requested details and review the agreement. Insta360's [SDK guide](https://onlinemanual.insta360.com/developer/en-us/resource/sdk) describes approval by email followed by a download link, with results normally sent within three working days.
+Apply at the [official Insta360 SDK application page](https://www.insta360.com/sdk/apply) for offline photo postprocessing with MediaSDK, complete the requested details and review the agreement. Insta360 supplies approved downloads separately; see its [SDK access guide](https://onlinemanual.insta360.com/developer/en-us/resource/sdk).
 
 Download **Linux x86-64 MediaSDK**, even on a Mac, plus **InsMetaDataSDK**. If the metadata package is absent from your approved downloads, ask Insta360 for access. This project was tested with **MediaSDK 3.1.5** and **InsMetaDataSDK 2.0.2**; newer versions need revalidation. CameraSDK is not required.
 
@@ -67,7 +105,7 @@ docker build --platform linux/amd64 \
   -f skills/insta360-sdk/scripts/Dockerfile skills/insta360-sdk/scripts
 ```
 
-The installer uses `$CODEX_HOME/skills`, or `~/.codex/skills` by default. Start a new agent session after installation. It preserves existing installations by refusing to overwrite them; use `--dest /path/to/skills` for another agent or an isolated install.
+For the Studio route, run only the installer; the Docker build is for SDK processing. The installer uses `$CODEX_HOME/skills`, or `~/.codex/skills` by default. Start a new agent session after installation. It preserves existing installations by refusing to overwrite them; use `--dest /path/to/skills` for another agent or an isolated install.
 
 The Docker image contains build/render dependencies. Your licensed SDK is mounted at runtime. The image is built locally; no prebuilt registry image is published. Building downloads Ubuntu packages; SDK processing runs offline.
 
@@ -136,7 +174,7 @@ Stop with **Ctrl+C**. The viewer ships in the repository and full source ZIP; th
 | Colour and detail | All **11 setters**, ColorPlus and denoise executed and were compared with a baseline |
 | Native metadata | All **9 parser methods** exercised; absent optional streams reported separately |
 | Local 360 viewer | Drag, zoom, auto-rotate, fullscreen and local file loading; 12 server boundary tests |
-| Distribution | **18 automated tests**, fresh installation, C++ compilation and a verified 960×480 stitch |
+| Distribution | Automated package/runtime-boundary and sphere-helper tests, fresh skill installation, C++ compilation and a verified 960×480 stitch; [scope and reproduction](docs/validation.md) |
 | Studio full-sphere DNG export | Native macOS Studio **5.9.10** exported four One RS captures at **6528×3264** as LinearRaw RGB in sixteen-bit storage; RAW development and edit quality need separate verification |
 | High-precision flat reframe | Developed RGB16 TIFF input/output, ICC preservation and explicit eight-bit delivery conversion; geometry and precision fixtures tested |
 | AI stitching algorithm | Black without GPU exposure; actual-scene output with NVIDIA compute visible, even under nominal CPU options |
@@ -163,7 +201,7 @@ The references map **98 MediaSDK** and **11 MetadataSDK callable declarations**.
 
 Useful contributions include tests on additional camera models or hosts, reproducible stitching failures, and improvements to first-time setup. Include the host, SDK version, camera model, operation and expected result. Share only files you are permitted to publish; remove identifying metadata and private paths from issue reports.
 
-For local development:
+For local development, first install the test dependencies in the [distribution guide](docs/distribution.md#local-release-checks), then run:
 
 ```sh
 python3 tools/check_dist.py
@@ -172,6 +210,6 @@ python3 -m unittest discover -s viewer -p 'test_server.py' -v
 python3 tools/package.py
 ```
 
-Public files live at the repository root. Local SDKs, photos and logs are ignored; release archives use an explicit allowlist. See the [distribution guide](docs/distribution.md) for packaging and publication, and [launch settings](docs/launch.md) for the repository description, topics and social preview.
+Release archives use an explicit source allowlist. See the [distribution guide](docs/distribution.md) for packaging and the [changelog](CHANGELOG.md) for changes. Report toolkit issues in [this repository](https://github.com/sheldonxxxx/insta360-ai-toolkit/issues); report Lightweft or RapidRAW issues in their own repositories.
 
 **Independent community project.** Not affiliated with or endorsed by Insta360. Original code and documentation are [MIT licensed](LICENSE); the SDK and other third-party materials retain their own terms. See [NOTICE.md](NOTICE.md).

@@ -117,11 +117,11 @@
   },
   "headers": [
     {
-      "path": "sdk/InsMetaDataSDK-20260629_184813-2.0.2-linux64-default/include/metaData.h",
+      "path": "include/metaData.h",
       "sha256": "d6b0c02c0b2866d5ee5892b56d5d8402636943852ef3fdcb8169143ede2f9733"
     },
     {
-      "path": "sdk/InsMetaDataSDK-20260629_184813-2.0.2-linux64-default/include/common.h",
+      "path": "include/common.h",
       "sha256": "ebce3eace948362cf79765392ed32ce74a0eaae8d84d8d8ef41f10208306788e"
     }
   ],

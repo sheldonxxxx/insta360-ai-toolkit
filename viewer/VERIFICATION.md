@@ -11,7 +11,7 @@ Tested on macOS only. The public source archive was extracted into a fresh direc
 - Keyboard navigation changed heading; zoom changed field of view; reset restored the initial view; auto-rotate advanced the heading and could be paused.
 - An explicit `--photo` JPEG preload loaded automatically and exposed the Photos control. No other photos appeared in the catalogue.
 - A 390×844 viewport had no page overflow. No JavaScript page errors occurred in the checked flows.
-- Test servers stopped after verification. No private photographs or screenshots are included in the repository or release archive.
+- The source and release archive contain no sample photographs; use your own panorama when reproducing the browser checks.
 
 ## Earlier interaction checks
 

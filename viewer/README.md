@@ -18,7 +18,7 @@ python3 viewer/server.py --photo processed/first-look/panorama.jpg
 
 Repeat `--photo` to preload multiple JPEG panoramas, then switch between them with **Photos**. Preloaded photos are served only at their assigned local media URLs. Use `--port 8788` if the default port is busy. Stop with **Ctrl+C**.
 
-The viewer runs independently of the SDK: **no SDK approval, Docker, build step or internet connection is needed to view an existing panorama.** It ships in the full source repository/archive. The standalone skill ZIP contains the agent skill and SDK helpers.
+The viewer runs independently of the SDK: **no SDK approval, Docker, build step or internet connection is needed to view an existing panorama.** It ships in the full source repository/archive. The standalone skill ZIP contains the agent skill and SDK helpers. For ongoing comparisons and photographic review, the optional [Lightweft workspace](https://github.com/sheldonxxxx/lightweft) provides shared review panels. Local 360 remains a standalone single-panorama viewer.
 
 | Action | Control |
 |---|---|
