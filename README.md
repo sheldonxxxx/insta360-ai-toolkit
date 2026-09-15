@@ -1,5 +1,7 @@
 # Insta360 AI Toolkit
 
+An independent companion to **[Lightweft](https://github.com/sheldonxxxx/lightweft)**, the main project for AI photo-editing direction, personal style and visual review.
+
 **Give your AI agent the full picture.** Stitch, level and prepare Insta360 360° photos for editing—with a reusable agent skill, local Docker tools, a Studio RAW export workflow and a 360° photo viewer.
 
 ![Insta360 AI Toolkit: from native INSP to a panorama ready to edit. Stitching, HDR, FlowState and verified exports.](docs/assets/hero.svg)
